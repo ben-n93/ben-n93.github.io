@@ -8,14 +8,13 @@ I'm a data analyst/programmer based in Sydney, Australia.
 ##### Programming languages
 - Python
 - SQL
-- Visual Basic for Applications (VBA)
+- Visual Basic for Applications
 - Bash
 
 ##### Databases
 - Microsoft SQL Server
 - Snowflake
 - SQLite
-- Dbeaver
 
 ##### Data analysis/visualisation
 - Tableau
