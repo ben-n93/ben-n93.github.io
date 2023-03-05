@@ -3,7 +3,7 @@ Category: About Me
 
 Hi there!
 
-I'm a data analyst/programmer based in Sydney, Australia. Test!
+I'm a data analyst/programmer based in Sydney, Australia.
 
 ##### Programming languages
 - Python
@@ -15,7 +15,6 @@ I'm a data analyst/programmer based in Sydney, Australia. Test!
 - Microsoft SQL Server
 - Snowflake
 - SQLite
-- Dbeaver
 
 ##### Data analysis/visualisation
 - Tableau
