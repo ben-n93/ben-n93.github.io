@@ -1,6 +1,6 @@
 AUTHOR = 'Ben Nour'
 SITENAME = 'Ben Nour'
-#SITEURL = 'http://ben-nour.com/'
+#SITEURL = 'https://ben-nour.com/'
 SITETITLE = 'Ben Nour'
 
 PATH = 'content'
@@ -19,7 +19,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-#LINKS = (('blog', 'http://localhost:8000/category/blog.html'),)
+LINKS = (('blog', 'https://ben-nour.com/category/blog.html'),)
 
 # Social widget
 SOCIAL = (('github', 'https://github.com/ben-n93'),
