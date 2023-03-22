@@ -4,6 +4,8 @@ SITENAME = 'Ben Nour'
 SITETITLE = 'Ben Nour'
 
 PATH = 'content'
+STATIC_PATHS = ['images', 'folium']
+
 
 TIMEZONE = 'Australia/Sydney'
 
@@ -17,7 +19,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-#LINKS = (('Pelican', 'https://getpelican.com/'),)
+#LINKS = (('blog', 'http://localhost:8000/category/blog.html'),)
 
 # Social widget
 SOCIAL = (('github', 'https://github.com/ben-n93'),
