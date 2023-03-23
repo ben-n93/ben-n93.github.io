@@ -1,6 +1,6 @@
 AUTHOR = "Ben Nour"
 SITENAME = "Ben Nour"
-# SITEURL = 'https://ben-nour.com/'
+SITEURL = 'https://ben-nour.com/'
 SITETITLE = "Ben Nour"
 
 PATH = "content"
