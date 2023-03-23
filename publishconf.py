@@ -19,4 +19,4 @@ DELETE_OUTPUT_DIRECTORY = True
 # Following items are often useful when publishing
 
 DISQUS_SITENAME = "ben-nour"
-# GOOGLE_ANALYTICS = ""
+GOOGLE_ANALYTICS = "G-TFP90633KX"
