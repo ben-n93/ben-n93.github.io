@@ -37,7 +37,7 @@
 
 <meta name="author" content="Ben Nour" />
 <meta name="description" content="Recently I was browsing Geoscience Australia&#39;s datasets and came across a useful database of &#34;known spatial locations of onshore and offshore pipelines or pipeline corridors used to transport natural gas, oil and other liquids within Australia’s mainland and territorial waters.&#34; I thought it&#39;d be interesting to see on a …" />
-<meta name="keywords" content="">
+<meta name="keywords" content="data-visualisation, geospatial-data">
 
 
   <meta property="og:site_name" content="Ben Nour"/>
@@ -50,6 +50,8 @@
   <meta property="article:modified_time" content=""/>
   <meta property="article:author" content="/author/ben-nour.html">
   <meta property="article:section" content="Blog"/>
+  <meta property="article:tag" content="data-visualisation"/>
+  <meta property="article:tag" content="geospatial-data"/>
   <meta property="og:image" content="">
 
   <title>Ben Nour &ndash; Where are Australia&#39;s oil and gas pipelines located?</title>
@@ -151,13 +153,13 @@ are located:</p>
 <p>Also provided in the dataset was proposed gas and oil pipelines, which you can see here:</p>
 <iframe src="proposed_pipelines.html" height="500" width="750"></iframe>
 
-<p>If you want to view the data used for this, you can access the aformentioned Geoscience
+<p>If you want to view the data used for this, you can access the aforementioned Geoscience
 database. I've also saved a copy of the data to <a href="https://github.com/ben-n93/australia_gas_oil_pipelines">this Github repo</a>, along with
 the source code for this project (more details as follows).</p>
 <h2>How I did it</h2>
 <p>The GeoJSON files provided in Geoscience's database bundled together 
 existing and proposed pipelines. </p>
-<p>As I knew I wanted seperate maps for existing
+<p>As I knew I wanted separate maps for existing
 vs proposed pipelines I used Python to parse these GeoJSON files and create new 
 GeoJSON files:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
@@ -244,6 +246,8 @@ data cleaning/wrangling I demonstrated earlier:</p>
   </div>
   <div class="tag-cloud">
     <p>
+      <a href="/tag/data-visualisation.html">data-visualisation</a>
+      <a href="/tag/geospatial-data.html">geospatial-data</a>
     </p>
   </div>
 
@@ -252,6 +256,20 @@ data cleaning/wrangling I demonstrated earlier:</p>
 
 
 
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ben-nour';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
 </article>
 
 <footer>
