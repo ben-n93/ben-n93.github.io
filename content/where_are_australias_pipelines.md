@@ -1,6 +1,7 @@
 Title: Where are Australia's oil and gas pipelines located?
 Date: 2023-03-22
 Category: Blog
+Tags: data-visualisation, geospatial-data
 
 Recently I was browsing Geoscience Australia's datasets and came across
 a useful [database](https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/147583) of *"known spatial locations of onshore and offshore 
@@ -16,7 +17,7 @@ Also provided in the dataset was proposed gas and oil pipelines, which you can s
 
 <iframe src="proposed_pipelines.html" height="500" width="750"></iframe>
 
-If you want to view the data used for this, you can access the aformentioned Geoscience
+If you want to view the data used for this, you can access the aforementioned Geoscience
 database. I've also saved a copy of the data to [this Github repo](https://github.com/ben-n93/australia_gas_oil_pipelines), along with
 the source code for this project (more details as follows).
 
@@ -25,7 +26,7 @@ the source code for this project (more details as follows).
 The GeoJSON files provided in Geoscience's database bundled together 
 existing and proposed pipelines. 
 
-As I knew I wanted seperate maps for existing
+As I knew I wanted separate maps for existing
 vs proposed pipelines I used Python to parse these GeoJSON files and create new 
 GeoJSON files:
 

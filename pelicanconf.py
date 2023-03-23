@@ -1,15 +1,15 @@
-AUTHOR = 'Ben Nour'
-SITENAME = 'Ben Nour'
-#SITEURL = 'https://ben-nour.com/'
-SITETITLE = 'Ben Nour'
+AUTHOR = "Ben Nour"
+SITENAME = "Ben Nour"
+# SITEURL = 'https://ben-nour.com/'
+SITETITLE = "Ben Nour"
 
-PATH = 'content'
-STATIC_PATHS = ['images', 'folium']
+PATH = "content"
+STATIC_PATHS = ["images", "folium"]
 
 
-TIMEZONE = 'Australia/Sydney'
+TIMEZONE = "Australia/Sydney"
 
-DEFAULT_LANG = 'en'
+DEFAULT_LANG = "en"
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -19,12 +19,14 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('blog', 'https://ben-nour.com/category/blog.html'),)
+LINKS = (("blog", "https://ben-nour.com/category/blog.html"),)
 
 # Social widget
-SOCIAL = (('github', 'https://github.com/ben-n93'),
-          ('twitter', 'https://twitter.com/ben_n_93'),
-          ('medium','https://medium.com/@ben.nour_68691'))
+SOCIAL = (
+    ("github", "https://github.com/ben-n93"),
+    ("twitter", "https://twitter.com/ben_n_93"),
+    ("medium", "https://medium.com/@ben.nour_68691"),
+)
 
 # Theme.
 THEME = "/Users/benjaminnour/opt/anaconda3/envs/pelcian/lib/python3.10/site-packages/pelican/themes/Flex"
@@ -32,4 +34,6 @@ THEME = "/Users/benjaminnour/opt/anaconda3/envs/pelcian/lib/python3.10/site-pack
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+# RELATIVE_URLS = True
+
+DISQUS_SITENAME = "ben-nour"
