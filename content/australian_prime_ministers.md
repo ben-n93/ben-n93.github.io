@@ -37,7 +37,9 @@ as head of the Liberal Party of Australia.
 
 ### How I did it
 
-I used the [PyWaffle](https://pywaffle.readthedocs.io/en/latest/) library to create the pictogram/waffle chart:
+I used the [PyWaffle](https://pywaffle.readthedocs.io/en/latest/) library to create the pictogram/waffle chart.
+
+
 
 ``` python
 from pywaffle import Waffle

@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+<meta name="author" content="Ben Nour" />
+<meta name="description" content="img { border: 1px solid #BFBFBF; } As an avid reader I thought it would be cool to combine my love of books and data to create a book recommendation Twitter bot: Specifically I wanted to recommend science fiction books that you could read free of charge, something made possible thanks to …" />
+<meta name="keywords" content="twitter-bot, data-engineering">
+
+
+  <meta property="og:site_name" content="Ben Nour"/>
+  <meta property="og:title" content="How I created a book recommendation Twitter bot"/>
+  <meta property="og:description" content="img { border: 1px solid #BFBFBF; } As an avid reader I thought it would be cool to combine my love of books and data to create a book recommendation Twitter bot: Specifically I wanted to recommend science fiction books that you could read free of charge, something made possible thanks to …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/how-i-created-a-book-recommendation-twitter-bot.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2023-03-31 00:00:00+11:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/ben-nour.html">
+  <meta property="article:section" content="Blog"/>
+  <meta property="article:tag" content="twitter-bot"/>
+  <meta property="article:tag" content="data-engineering"/>
+  <meta property="og:image" content="">
+
+  <title>Ben Nour &ndash; How I created a book recommendation Twitter bot</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="/">
+      <img src="/theme/img/profile.png" alt="Ben Nour" title="Ben Nour">
+    </a>
+
+    <h1>
+      <a href="/">Ben Nour</a>
+    </h1>
+
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="/pages/about-me.html#about-me">
+                About Me
+              </a>
+            </li>
+            <li>
+              <a target="_self"
+                 href="/pages/contact.html#contact">
+                Contact
+              </a>
+            </li>
+            <li>
+              <a target="_self"
+                 href="/pages/projects.html#projects">
+                Projects
+              </a>
+            </li>
+
+          <li>
+            <a target="_self" href="https://ben-nour.com/category/blog.html" >blog</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-github"
+           href="https://github.com/ben-n93"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-twitter"
+           href="https://twitter.com/ben_n_93"
+           target="_blank">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-medium"
+           href="https://medium.com/@ben.nour_68691"
+           target="_blank">
+          <i class="fa-brands fa-medium"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+
+<article class="single">
+  <header>
+      
+    <h1 id="how-i-created-a-book-recommendation-twitter-bot">How I created a book recommendation Twitter bot</h1>
+    <p>
+      Posted on Fri 31 March 2023 in <a href="/category/blog.html">Blog</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <style>
+img {
+  border: 1px solid #BFBFBF;
+}
+</style>
+
+<p>As an avid reader I thought it would be cool to combine my love of books and
+data to create a book recommendation <a href="https://twitter.com/Gutenberg_SciFi">Twitter bot</a>:</p>
+<p><img src="images/pg_twitter_bot.png" width=500 height=311.87></p>
+<p>Specifically I wanted to recommend science fiction books that you could read 
+free of charge, something made possible thanks to 
+<a href="https://www.gutenberg.org/">Project Gutenberg</a>, a volunteer-run organisation 
+that hosts a collection of public domain works.</p>
+<h2>Data source/collection</h2>
+<p>PG very helpfully offers a <a href="https://www.gutenberg.org/cache/epub/feeds/">CSV feed</a>,
+which I used to download their catalog:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">IDS_CSV</span> <span class="o">=</span> <span class="s2">&quot;data/IDs_log.csv&quot;</span>
+<span class="n">SF_CATALOG</span> <span class="o">=</span> <span class="s2">&quot;data/sf_catalog.csv&quot;</span>
+<span class="n">PG_CATALOG</span> <span class="o">=</span> <span class="s2">&quot;data/pg_catalog.csv&quot;</span>
+
+<span class="c1"># Access Project Guntenberg CSV feed and write catalog to CSV file.</span>
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://www.gutenberg.org/cache/epub/feeds/pg_catalog.csv&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PG_CATALOG</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">iter_lines</span><span class="p">():</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</code></pre></div>
+
+<p>Here's a snippet of the catalog:</p>
+<table>
+<thead>
+<tr>
+<th>Text#</th>
+<th>Type</th>
+<th>Issued</th>
+<th>Title</th>
+<th>Language</th>
+<th>Authors</th>
+<th>Subjects</th>
+<th>LoCC</th>
+<th>Bookshelves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>64</td>
+<td>Text</td>
+<td>1993-05-01</td>
+<td>The Gods of Mars</td>
+<td>en</td>
+<td>Burroughs, Edgar Rice, 1875-1950</td>
+<td>Science fiction; Mars (Planet) -- Fiction; Life on other planets -- Fiction; Carter, John (Fictitious character) -- Fiction; Dejah Thoris (Fictitious character) -- Fiction</td>
+<td>PS</td>
+<td>Science Fiction</td>
+</tr>
+<tr>
+<td>155</td>
+<td>Text</td>
+<td>2006-01-12</td>
+<td>The Moonstone</td>
+<td>en</td>
+<td>Collins, Wilkie, 1824-1889</td>
+<td>England -- Fiction; Country homes -- Fiction; Police -- England -- Fiction; Jewelry theft -- Fiction; East Indians -- England -- Fiction; Mystery fiction</td>
+<td>PR</td>
+<td>Detective Fiction; Mystery Fiction</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Data transformation</h2>
+<h3>Filtering the data</h3>
+<p>Using the Subjects field, I identified science fiction books (and <em>only</em> books) and created a new CSV file of science fiction books:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create CSV file of science fiction books.</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PG_CATALOG</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">SF_CATALOG</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+    <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Text#&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Authors&#39;</span><span class="p">]</span>
+    <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="n">csv_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
+    <span class="n">csv_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;Science Fiction&quot;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Bookshelves&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Text&quot;</span><span class="p">:</span>
+            <span class="n">csv_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span><span class="s2">&quot;Text#&quot;</span><span class="p">:</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">],</span> <span class="s2">&quot;Title&quot;</span><span class="p">:</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">],</span> <span class="s2">&quot;Authors&quot;</span><span class="p">:</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Authors&quot;</span><span class="p">]})</span>
+</code></pre></div>
+
+<h3>Cleaning the data</h3>
+<p>The Authors field metadata is in the "surname-first" format (used in academic and scientific writing), which is unfortunately
+not as readable for the intended end user of this bot:</p>
+<p>For example:</p>
+<table>
+<thead>
+<tr>
+<th>Text#</th>
+<th>Title</th>
+<th>Authors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28767</td>
+<td>The Defenders</td>
+<td>Dick, Philip K., 1928-1982; Emshwiller, Ed, 1925-1990 [Illustrator]</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>In order to clean this data, I create a <code>Book</code> class. A <code>clean_author_metadata()</code>
+method splits up the author's names based on the semicolon delimiter, removes any commas, removes
+the year/s of their birth/death and replaces [Illustrator] with just the author's name:</p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;Book class module.&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">Book</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A book from the Project Guntenberg collection.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_ID</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">authors</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Constructor method.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_ID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text_ID</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://www.gutenberg.org/ebooks/</span><span class="si">{</span><span class="n">text_ID</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean_authors_data</span><span class="p">(</span><span class="n">authors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">clean_authors_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authors</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Split up the author&#39;s names based on the semicolon delimiter, </span>
+<span class="sd">        remove any commas, and replaces [Illustrator] with just the author&#39;s </span>
+<span class="sd">        name.&quot;&quot;&quot;</span>
+
+        <span class="n">individual_authors</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span>
+        <span class="n">cleaned_authors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">author</span> <span class="ow">in</span> <span class="n">individual_authors</span><span class="p">:</span>
+            <span class="n">author_words</span> <span class="o">=</span> <span class="n">author</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">new_author_words</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">author_words</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">word</span> <span class="o">!=</span> <span class="s2">&quot;[Illustrator]&quot;</span><span class="p">:</span>
+                        <span class="n">new_word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">new_author_words</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">new_word</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_author_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="n">cleaned_author</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_author_words</span><span class="p">)</span>
+            <span class="n">cleaned_authors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cleaned_author</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cleaned_authors</span>
+</code></pre></div>
+
+<p>Using our <em>The Defenders</em> example from before, here is the cleaned data:</p>
+<p><img src="images/twitter_cleaned_data_example.png" width=598 height=285></p>
+<h2>Choosing a book to post about</h2>
+<p>Before a random book is selected from the science fiction catalog to be posted to Twitter, there are a couple of checks that 
+take place.</p>
+<p>When a book is posted about by the Twitter bot, the book's unique ID (the Text# field that you can see in the catalog snippet above)
+is written to an "IDs" CSV - basically a log of which books have been posted about.</p>
+<p>To begin with, we verify if the number of IDs recorded is equivalent to the number of science fiction books listed in the catalog. If this is the case,
+the bot has posted about all the SF books available and a fresh, empty IDs CSV file is created so that we can start posting again:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">tweepy</span> 
+
+<span class="kn">from</span> <span class="nn">book</span> <span class="kn">import</span> <span class="n">Book</span>
+
+<span class="n">IDS_CSV</span> <span class="o">=</span> <span class="s2">&quot;data/IDs_log.csv&quot;</span>
+<span class="n">SF_CATALOG</span> <span class="o">=</span> <span class="s2">&quot;data/sf_catalog.csv&quot;</span>
+<span class="n">HEADERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">,</span> <span class="s2">&quot;Title&quot;</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">SF_CATALOG</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf_csv</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">IDS_CSV</span><span class="p">)</span> <span class="k">as</span> <span class="n">IDs_csv</span><span class="p">:</span>
+    <span class="n">sf_csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">sf_csv</span><span class="p">)</span>
+    <span class="n">sf_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sf_csv_reader</span><span class="p">]</span>
+    <span class="n">sf_rows_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sf_rows</span><span class="p">)</span>
+
+    <span class="n">IDs_csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">IDs_csv</span><span class="p">)</span>
+    <span class="n">IDs_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">IDs_csv_reader</span><span class="p">]</span>
+    <span class="n">IDs_rows_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">IDs_rows</span><span class="p">)</span>
+
+<span class="c1"># Check to see if the Twitterbot has gone through all books in the SF catalog.</span>
+<span class="k">if</span> <span class="n">sf_rows_count</span> <span class="o">==</span> <span class="n">IDs_rows_count</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">IDS_CSV</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">csv_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">HEADERS</span><span class="p">)</span>
+        <span class="n">csv_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">csv_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span><span class="s2">&quot;Text#&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;Title&quot;</span><span class="p">:</span><span class="s2">&quot;0&quot;</span><span class="p">})</span>
+</code></pre></div>
+
+<p>When a random book is selected from the SF catalog, we then check 
+that this book hasn't been posted before. Note that there are two steps in this
+check: </p>
+<ul>
+<li>
+<p>There is a check to make sure  the random book's Text# ID isn't present in our IDs catalog.</p>
+</li>
+<li>
+<p>There is a check to ensure the book's title doesn't match anything that's been posted about before. That's because there are books that are present in the catalog more than once - for example, there are two version of <em>The Strange Case of Dr. Jekyll and Mr. Hyde</em> - so even if the Text# ID is different, it might be the same book. If the same book <em>has</em> posted before, it's Text# ID is written to the IDs catalog:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">random_pick</span> <span class="o">=</span> <span class="n">sf_rows</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sf_rows_count</span><span class="p">)]</span>
+
+<span class="c1"># Check to make sure the book chosen hasn&#39;t already been posted previously.</span>
+<span class="n">books_to_log</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">while</span> <span class="n">flag</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">IDS_CSV</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">text_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Text#&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">]</span>
+        <span class="n">title_rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">title_rows</span> <span class="ow">and</span> <span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_rows</span><span class="p">:</span>
+        <span class="n">same_book</span> <span class="o">=</span> <span class="n">Book</span><span class="p">(</span><span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">],</span> <span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">],</span><span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Authors&quot;</span><span class="p">])</span>
+        <span class="n">books_to_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">same_book</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">text_rows</span><span class="p">:</span>
+        <span class="n">random_pick</span> <span class="o">=</span> <span class="n">sf_rows</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sf_rows_count</span><span class="p">)]</span>
+        <span class="k">continue</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">book_pick</span> <span class="o">=</span> <span class="n">Book</span><span class="p">(</span><span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Text#&quot;</span><span class="p">],</span> <span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">],</span><span class="n">random_pick</span><span class="p">[</span><span class="s2">&quot;Authors&quot;</span><span class="p">])</span>
+        <span class="n">books_to_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">book_pick</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">IDS_CSV</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">csv_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">HEADERS</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books_to_log</span><span class="p">:</span>
+                <span class="n">csv_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span><span class="s2">&quot;Text#&quot;</span><span class="p">:</span><span class="n">book</span><span class="o">.</span><span class="n">text_ID</span><span class="p">,</span> <span class="s2">&quot;Title&quot;</span><span class="p">:</span><span class="n">book</span><span class="o">.</span><span class="n">title</span><span class="p">})</span>
+</code></pre></div>
+
+<p>Once a random book has been selected that hasn't been posted about before,
+its Text# is logged to the IDs CSV and the book is posted to Twitter:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Post to Twitter.</span>
+<span class="n">authors_string</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">book_pick</span><span class="o">.</span><span class="n">authors</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">create_tweet</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Check out </span><span class="si">{</span><span class="n">book_pick</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> by </span><span class="si">{</span><span class="n">authors_string</span><span class="si">}</span><span class="s2">. #ebook #sciencefiction </span><span class="si">{</span><span class="n">book_pick</span><span class="o">.</span><span class="n">URL</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Here's an example:</p>
+<p><img src="images/tweet_example.png" width=598 height=285></p>
+<h3>Automation</h3>
+<p>In order to make my Twitter bot automatically post a random book recommendation twice a day (at 7am and 7pm UTC time), I utilized Github Actions to create a customized workflow. This allowed me to automate the process of selecting and posting a book recommendation without the need for manual intervention:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Post book tweet</span>
+
+<span class="nt">on</span><span class="p">:</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">7</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">19</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span>
+
+<span class="nt">permissions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write-all</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Python</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.10&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Checkout repository content</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install requirements.txt</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">python -m pip install --upgrade pip</span>
+<span class="w">        </span><span class="no">pip install -r requirements.txt</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set enviromental secrets and execute twitter_bot.py</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">PG_TWITTER_ACCESS_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PG_TWITTER_ACCESS_TOKEN }}</span>
+<span class="w">          </span><span class="nt">PG_TWITTER_ACCESS_TOKEN_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PG_TWITTER_ACCESS_TOKEN_SECRET }}</span>
+<span class="w">          </span><span class="nt">PG_TWITTER_BEARER_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PG_TWITTER_BEARER_TOKEN }}</span>
+<span class="w">          </span><span class="nt">PG_TWITTER_CONSUMER_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PG_TWITTER_CONSUMER_KEY }}</span>
+<span class="w">          </span><span class="nt">PG_TWITTER_CONSUMER_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.PG_TWITTER_CONSUMER_SECRET }}</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">python src/twitter_bot.py</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update repo</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">git config user.email ${{ secrets.EMAIL }}</span>
+<span class="w">        </span><span class="no">git config user.name &quot;Ben&quot;</span>
+<span class="w">        </span><span class="no">git config user.username ben-n93</span>
+<span class="w">        </span><span class="no">git config user.password ${{ secrets.PERSONAL_ACCESS_TOKEN}}</span>
+<span class="w">        </span><span class="no">git add --all</span>
+<span class="w">        </span><span class="no">git commit -m &quot;update&quot;</span>
+<span class="w">        </span><span class="no">git push</span>
+</code></pre></div>
+
+<p>In order to ensure that my Twitter bot could post about any new sci-fi books added to the PG catalog, I also used GitHub Actions to automate the extraction of the catalog data on the first day of every month (I won't include the YAML file here but you can view it in my repo).</p>
+<p>You can view the full source code on <a href="https://github.com/ben-n93/project_guntenberg_sf_twitterbot">Github</a>.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/twitter-bot.html">twitter-bot</a>
+      <a href="/tag/data-engineering.html">data-engineering</a>
+    </p>
+  </div>
+
+
+
+
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ben-nour';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Ben Nour ",
+  "url" : "",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>
