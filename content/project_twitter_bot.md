@@ -1,4 +1,4 @@
-Title: How I created a book recommendation Twitter bot
+Title: How I created a Twitter bot that posts about science fiction books
 Date: 2023-03-31
 Category: Blog
 Tags: twitter-bot, data-engineering
@@ -9,8 +9,9 @@ img {
 }
 </style>
 
-As an avid reader I thought it would be cool to combine my love of books and
-data to create a book recommendation [Twitter bot](https://twitter.com/Gutenberg_SciFi):
+As an avid reader I thought it would be cool to combine my love of literature and
+data to create a [Twitter bot](https://twitter.com/Gutenberg_SciFi) that 
+posts about sci-fi books:
 
 <img src="images/pg_twitter_bot.png" width=500 height=311.87>
 
@@ -25,7 +26,6 @@ PG very helpfully offers a [CSV feed](https://www.gutenberg.org/cache/epub/feeds
 which I used to download their catalog:
 
 ``` py
-import os 
 import csv
 
 IDS_CSV = "data/IDs_log.csv"
@@ -79,9 +79,7 @@ For example:
 |   28767  |   The Defenders  |   Dick, Philip K., 1928-1982; Emshwiller, Ed, 1925-1990 [Illustrator]  |
 |          |                  |                                                                        |
 
-In order to clean this data, I create a `Book` class. A `clean_author_metadata()`
-method splits up the author's names based on the semicolon delimiter, removes any commas, removes
-the year/s of their birth/death and replaces [Illustrator] with just the author's name:
+In order to clean this data, I create a `Book` class and implemented a `_clean_author_metadata()` method:
 
 ``` python
 """Book class module."""
@@ -95,12 +93,10 @@ class Book:
         self.text_ID = str(text_ID)
         self.title = title
         self.URL = f"https://www.gutenberg.org/ebooks/{text_ID}"
-        self.authors = self.clean_authors_data(authors)
+        self.authors = self._clean_authors_data(authors)
 
-    def clean_authors_data(self, authors):
-        """Split up the author's names based on the semicolon delimiter, 
-        remove any commas, and replaces [Illustrator] with just the author's 
-        name."""
+    def _clean_authors_data(self, authors):
+        """Clean the author metadata."""
 
         individual_authors = authors.split(";")
         cleaned_authors = []
