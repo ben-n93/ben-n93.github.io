@@ -3,6 +3,13 @@ Category: Projects
 
 Here are some of the projects I've developed:
 
+#### APIs
+
+- [Archer API](https://www.archerapi.com/) - Archer API is a REST API based on the adult animated sitcom. It provides data about Archer's characters,
+episodes and quotes:
+
+    - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
+
 #### Applications/tools
 
 - [VAST XML Parser](https://github.com/ben-n93/VAST_XML_Parser) - an XML parser that extracts Creative and MediaFile element metadata from Video Ad Serving Template XML tags.
@@ -18,10 +25,6 @@ Here are some of the projects I've developed:
     - You can read about how I created this project on [my blog](https://ben-nour.com/how-i-created-a-twitter-bot-that-posts-about-science-fiction-books.html#how-i-created-a-twitter-bot-that-posts-about-science-fiction-books).
 
 - [The Simpsons - Episode History Twitter Bot](https://twitter.com/EH_TheSimpsons) - A Twitter bot that posts every day (when possible) about an episode of The Simpsons that aired that day, however many years ago. Fully automated via Github Actions.
-
-#### Data
-
-- [US horror films visualised](http://ben-nour.com/us_horror_films_locations/) - an interactive choropleth map that visualises which states US-based horror films are mostly set in. You can read on [Medium](https://medium.com/@ben.nour_68691/which-us-states-are-horror-films-mostly-set-in-e8f2d4566b62) about how I approached this project.
 
 #### Misc
 
