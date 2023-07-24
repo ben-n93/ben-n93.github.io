@@ -3,8 +3,6 @@ Date: 2023-04-22
 Category: Blog
 Tags: API, data-engineering
 
-<img src="https://www.archerapi.com/logo.png">
-
 Introducing [Archer API](https://www.archerapi.com/), a REST API based on one of my favourite shows, the
 adult animated spy comedy [Archer](https://www.imdb.com/title/tt1486217/).
 
