@@ -28,6 +28,8 @@ which I used to download their catalog:
 ``` py
 import csv
 
+import requests
+
 IDS_CSV = "data/IDs_log.csv"
 SF_CATALOG = "data/sf_catalog.csv"
 PG_CATALOG = "data/pg_catalog.csv"
