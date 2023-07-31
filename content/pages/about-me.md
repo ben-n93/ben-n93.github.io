@@ -3,7 +3,7 @@ Category: About Me
 
 Hi there!
 
-I'm a data analyst/programmer based in Sydney, Australia.
+I'm a data analyst based in Sydney, Australia.
 
 ##### Programming languages
 - Python
