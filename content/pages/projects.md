@@ -24,7 +24,6 @@ episodes and quotes:
 - [Gutenberg Sci-Fi Twitter Bot](https://twitter.com/Gutenberg_SciFi) - a Twitter bot that posts daily recommendations of science fiction books from Project Gutenberg's collection of public domain works:
     - You can read about how I created this project on [my blog](https://ben-nour.com/how-i-created-a-twitter-bot-that-posts-about-science-fiction-books.html#how-i-created-a-twitter-bot-that-posts-about-science-fiction-books).
 
-- [The Simpsons - Episode History Twitter Bot](https://twitter.com/EH_TheSimpsons) - A Twitter bot that posts every day (when possible) about an episode of The Simpsons that aired that day, however many years ago. Fully automated via Github Actions.
 
 #### Misc
 
