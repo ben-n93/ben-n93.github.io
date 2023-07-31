@@ -1,7 +1,7 @@
 Title: About Me
 Category: About Me
 
-Hi there!
+Hi there.
 
 I'm a data analyst based in Sydney, Australia.
 
