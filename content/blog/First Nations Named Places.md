@@ -40,6 +40,10 @@ Again, I can't speak to the accuracy of these fields - you can see my doubt when
 
 However I've included these places anyway.
 
+I've also only included places that have been officially 'assigned' by the Board.
+
+You can read more about the different place designations [here](https://www.gnb.nsw.gov.au/__data/assets/pdf_file/0011/59627/Glossary_of_Designation_Values.pdf).
+
 ## Visualising the data
 
 Originally I wanted to plot all the named places on a map however the Folium map created was so large
@@ -55,3 +59,6 @@ First Nations origin you can see it in this bar chart:
 
 <img src="{static}/images/nsw_geographical_places.png" alt="Screenshot of a column chart showing the number of places in NSW, Australia that
 are of First Nations origin vs not." width="500" height="311.87">
+
+If you want to see the Jupyter Notebook I used for this you can check it out
+in this Github [repo](https://github.com/ben-n93/First_Nations_places_NSW).

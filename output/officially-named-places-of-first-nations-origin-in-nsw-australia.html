@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/pygments/github.min.css" id="pygments-light-theme" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<meta content="Ben Nour" name="author"/>
+<meta content="Recently I was curious about the origin of my street name and my search online led me to the NSW Geographical Names Board, a government body responsible for the management and administration of geographic and place names within the state of New South Wales, Australia. So not quite what I …" name="description"/>
+<meta content="geospatial-data, pandas, Python" name="keywords"/>
+<meta content="Ben Nour" property="og:site_name">
+<meta content="Officially named places of First Nations origin in NSW, Australia" property="og:title"/>
+<meta content="Recently I was curious about the origin of my street name and my search online led me to the NSW Geographical Names Board, a government body responsible for the management and administration of geographic and place names within the state of New South Wales, Australia. So not quite what I …" property="og:description"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="https://ben-nour.com/officially-named-places-of-first-nations-origin-in-nsw-australia.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2023-08-01 00:00:00+10:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="https://ben-nour.com/author/ben-nour.html" property="article:author"/>
+<meta content="blog" property="article:section">
+<meta content="geospatial-data" property="article:tag"/>
+<meta content="pandas" property="article:tag"/>
+<meta content="Python" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Ben Nour – Officially named places of First Nations origin in NSW, Australia</title>
+</meta></meta><link href="https://ben-nour.com/officially-named-places-of-first-nations-origin-in-nsw-australia.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Officially named places of first nations origin in nsw australia", "item": "https://ben-nour.com/officially-named-places-of-first-nations-origin-in-nsw-australia.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Officially named places of First Nations origin in NSW, Australia", "about": "blog", "datePublished": "2023-08-01 00:00"}</script></head>
+<body class="light-theme">
+<aside>
+<div>
+<a href="https://ben-nour.com/">
+<img alt="Ben Nour" src="https://ben-nour.com/theme/img/profile.png" title="Ben Nour"/>
+</a>
+<h1>
+<a href="https://ben-nour.com/">Ben Nour</a>
+</h1>
+<nav>
+<ul class="list">
+<li>
+<a href="https://ben-nour.com/pages/about-me.html#about-me" target="_self">
+                About Me
+              </a>
+</li>
+<li>
+<a href="https://ben-nour.com/pages/projects.html#projects" target="_self">
+                Projects
+              </a>
+</li>
+<li>
+<a href="https://ben-nour.com/category/blog.html" target="_self">blog</a>
+</li>
+</ul>
+</nav>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/ben-n93" target="_blank">
+<i class="fa-brands fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-twitter" href="https://twitter.com/ben_n_93" target="_blank">
+<i class="fa-brands fa-twitter"></i>
+</a>
+</li>
+<li>
+<a class="sc-medium" href="https://medium.com/@ben.nour_68691" target="_blank">
+<i class="fa-brands fa-medium"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<article class="single">
+<header>
+<h1 id="officially-named-places-of-first-nations-origin-in-nsw-australia">Officially named places of First Nations origin in NSW, Australia</h1>
+<p>
+      Posted on Tue 01 August 2023 in <a href="https://ben-nour.com/category/blog.html">blog</a>
+</p>
+</header>
+<div>
+<p>Recently I was curious about the origin of my street name and my search online
+led me to the <a href="https://www.gnb.nsw.gov.au/">NSW Geographical Names Board</a>,
+a government body responsible for the management and administration of
+geographic and place names within the state of New South Wales, Australia.</p>
+<p>So not quite what I was looking for but I still found this to be a fascinating
+data set, which is helpfully avaliable as a <a href="https://proposals.gnb.nsw.gov.au/public/geonames/search">CSV file</a> with all record information from the Geographical Name Register that the Board maintains.</p>
+<p>The data set includes an ABORIGINAL NAME field and so I thought it would be
+interesting to visualise how many places in NSW are of First
+Nations origin vs not.</p>
+<h2>How I did it</h2>
+<p>I used the ever fantastic <a href="https://python-visualization.github.io/folium/">Folium</a> package
+to visualise this data.</p>
+<p>But before I could use Folium I needed a GeoJSON file
+so what I did was write a Python script to take this CSV file and turn it in
+to a GeoJSON file. You can find the script, which is executed daily (so the data is fresh and of use to anyone else out there), and GeoJSON
+file in this <a href="https://github.com/ben-n93/NSW_Geographical_Name_Register_GeoJSON/tree/main">repo</a>.</p>
+<h2>Data accuracy</h2>
+<p>I want to flag that I can't verify as to how accurate this data is.</p>
+<p>The aforementioned ABORIGINAL NAME field is blank for many rows/places that, according to the MEANING or ORIGIN fields, are of First Nations origin.
+I contacted the Board and they told me that the ABORIGINAL NAME field was <em>"...a recent edition to the Geographical Names Register (it was only added 2 years ago)."</em>. </p>
+<p>So what I've done is also included any places that, according to the MEANING or ORIGIN field, are of First Nations origin. </p>
+<p>Again, I can't speak to the accuracy of these fields - you can see my doubt when presented with descriptions like this:</p>
+<p><img alt="Screenshot of metadata about a geographical location (Tilcha Creek) with NSW, Australia that is of First Nations origin." height="311.87" src="https://ben-nour.com/images/tilcha_creek.png" width="500"/></p>
+<p>However I've included these places anyway.</p>
+<h2>Visualising the data</h2>
+<p>Originally I wanted to plot all the named places on a map however the Folium map created was so large
+that it crashed my browser. I want to note that this is because of the large number
+of places that are <em>not</em> of First Nations origin.</p>
+<p>Creating a Folium map with places of First Nations origin was of no issue, size-wise:</p>
+<iframe height="500" src="https://ben-nour.com/NSW_geographical_places.html" width="750"></iframe>
+<p>While I couldn't use Folium to show the vast number of named places that are not of
+First Nations origin you can see it in this bar chart:</p>
+<p><img alt="Screenshot of a column chart showing the number of places in NSW, Australia that
+are of First Nations origin vs not." height="311.87" src="https://ben-nour.com/images/nsw_geographical_places.png" width="500"/></p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="https://ben-nour.com/tag/geospatial-data.html">geospatial-data</a>
+<a href="https://ben-nour.com/tag/pandas.html">pandas</a>
+<a href="https://ben-nour.com/tag/python.html">Python</a>
+</p>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ben-nour';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>©  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer> </main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Ben Nour ",
+  "url" : "https://ben-nour.com",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>
