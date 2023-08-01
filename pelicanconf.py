@@ -7,7 +7,7 @@ PATH = "content"
 STATIC_PATHS = ["images", "folium", "misc", 'extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
 
-PLUGINS = ["sitemap", "pelican-seo"]
+PLUGINS = ["sitemap", "pelican-seo", "seo"]
 
 TIMEZONE = "Australia/Sydney"
 
