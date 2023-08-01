@@ -6,42 +6,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://ben-nour.com/</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/archives.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/author/ben-nour.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/authors.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/categories.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/category/blog.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -62,56 +62,56 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://ben-nour.com/pages/about-me.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/pages/projects.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tag/api.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tag/data-engineering.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tag/data-visualisation.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tag/geospatial-data.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tag/twitter-bot.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://ben-nour.com/tags.html</loc>
-<lastmod>2023-08-01T20:35:21-00:00</lastmod>
+<lastmod>2023-08-01T20:39:11-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

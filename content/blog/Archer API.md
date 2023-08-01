@@ -1,5 +1,6 @@
 Title: Introducing Archer API
 Date: 2023-04-22
+Description: Introducing Archer API, a REST API built with Python and Flask.
 Tags: API, data-engineering
 
 Introducing [Archer API](https://www.archerapi.com/), a REST API based on one of my favourite shows, the
