@@ -1,5 +1,6 @@
 Title: Projects
 Category: Projects
+Description: Ben Nour's Python projects, which cover everything from Twitter bots to APIs.
 
 Here are some of the projects I've developed:
 

@@ -1,5 +1,6 @@
 Title: About Me
 Category: About Me
+Description: About Ben Nour, a data analyst/developer based in Sydney, Australia.
 
 Hi there!
 
