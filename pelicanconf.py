@@ -27,7 +27,7 @@ AUTHOR_FEED_RSS = None
 
 # SEO
 SEO_REPORT = True  # SEO report is enabled by default
-SEO_ENHANCER = False  # SEO enhancer is disabled by default
+SEO_ENHANCER = True  # SEO enhancer is disabled by default
 SEO_ENHANCER_OPEN_GRAPH = False # Subfeature of SEO enhancer
 SEO_ENHANCER_TWITTER_CARDS = False # Subfeature of SEO enhancer
 
