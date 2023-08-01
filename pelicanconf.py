@@ -7,7 +7,7 @@ PATH = "content"
 STATIC_PATHS = ["images", "folium", 'extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
 
-
+PLUGINS = ["sitemap"]
 
 TIMEZONE = "Australia/Sydney"
 
