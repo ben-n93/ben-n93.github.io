@@ -1,6 +1,5 @@
 Title: How I created a Twitter bot that posts about science fiction books
 Date: 2023-03-31
-Category: Blog
 Tags: twitter-bot, data-engineering
 
 <style>

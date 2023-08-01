@@ -1,6 +1,5 @@
 Title: Where are Australia's oil and gas pipelines located?
 Date: 2023-03-22
-Category: Blog
 Tags: data-visualisation, geospatial-data
 
 Recently I was browsing Geoscience Australia's datasets and came across

@@ -1,6 +1,5 @@
 Title: Introducing Archer API
 Date: 2023-04-22
-Category: Blog
 Tags: API, data-engineering
 
 Introducing [Archer API](https://www.archerapi.com/), a REST API based on one of my favourite shows, the
