@@ -10,11 +10,11 @@ other liquids within Australia’s mainland and territorial waters."*
 I thought it'd be interesting to see on a map of Australia *where* these pipelines
 are located:
 
-<iframe src="existing_pipelines.html" height="500" width="750"></iframe>
+<iframe src="{static}/misc/existing_pipelines.html" height="500" width="750"></iframe>
 
 Also provided in the dataset was proposed gas and oil pipelines, which you can see here:
 
-<iframe src="proposed_pipelines.html" height="500" width="750"></iframe>
+<iframe src="{static}/misc/proposed_pipelines.html" height="500" width="750"></iframe>
 
 If you want to view the data used for this, you can access the aforementioned Geoscience
 database. I've also saved a copy of the data to [this Github repo](https://github.com/ben-n93/australia_gas_oil_pipelines), along with
