@@ -9,7 +9,7 @@ a government body responsible for the management and administration of
 geographic and place names within the state of New South Wales, Australia.
 
 So not quite what I was looking for but I still found this to be a fascinating
-data set, which is helpfully avaliable as a [CSV file](https://proposals.gnb.nsw.gov.au/public/geonames/search) with all record information from the Geographical Name Register that the Board maintains.
+data set, which is helpfully available as a [CSV file](https://proposals.gnb.nsw.gov.au/public/geonames/search) with all record information from the Geographical Name Register that the Board maintains.
 
 The data set includes an ABORIGINAL NAME field and so I thought it would be
 interesting to visualise how many places in NSW are of First
