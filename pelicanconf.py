@@ -4,8 +4,10 @@ SITEURL = 'https://ben-nour.com'
 SITETITLE = "Ben Nour"
 
 PATH = "content"
-STATIC_PATHS = ["images", "folium", "misc", 'extra/CNAME']
-EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
+STATIC_PATHS = ["images", 'extra']
+EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},
+'extra/favicon.ico': {'path': 'favicon.ico'}
+}
 
 PLUGINS = ["sitemap", "seo"]
 
@@ -13,7 +15,7 @@ TIMEZONE = "Australia/Sydney"
 
 DEFAULT_LANG = "en"
 
-FAVICON = './content/images/ben_favicon.jpg'
+#FAVICON = './content/images/ben_favicon.jpg'
 
 # Articles
 #ARTICLE_PATHS = ['blog',]
