@@ -3,6 +3,24 @@ Date: 2023-03-22
 Description: Where Australia's existing and gas pipelines are located. How I created an interactive map of this using Python and Folium.
 Tags: data-visualisation, geospatial-data
 
+<style>
+    /* CSS code. */
+    .iframe-container {
+        position: relative;
+        padding-bottom: 66.66%; /* 3:2 aspect ratio (100 * 2/3) */
+        height: 0;
+        overflow: hidden;
+    }
+
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
 Recently I was browsing Geoscience Australia's datasets and came across
 a useful [database](https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/147583) of *"known spatial locations of onshore and offshore 
 pipelines or pipeline corridors used to transport natural gas, oil and 
@@ -11,11 +29,15 @@ other liquids within Australia’s mainland and territorial waters."*
 I thought it'd be interesting to see on a map of Australia *where* these pipelines
 are located:
 
+<div class="iframe-container">
 <iframe src="https://ben-nour.com/existing_pipelines.html" height="500" width="750"></iframe>
+</div>
 
 Also provided in the dataset was proposed gas and oil pipelines, which you can see here:
 
+<div class="iframe-container">
 <iframe src="https://ben-nour.com/proposed_pipelines.html" height="500" width="750"></iframe>
+</div>
 
 If you want to view the data used for this, you can access the aforementioned Geoscience
 database. I've also saved a copy of the data to [this Github repo](https://github.com/ben-n93/australia_gas_oil_pipelines), along with

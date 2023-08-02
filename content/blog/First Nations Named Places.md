@@ -4,7 +4,7 @@ Description: How I used Python to create an interactive map that shows places in
 Tags: geospatial-data, pandas, Python
 
 <style>
-    /* Your raw CSS code goes here */
+    /* CSS code. */
     .iframe-container {
         position: relative;
         padding-bottom: 66.66%; /* 3:2 aspect ratio (100 * 2/3) */
