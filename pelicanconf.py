@@ -13,6 +13,8 @@ TIMEZONE = "Australia/Sydney"
 
 DEFAULT_LANG = "en"
 
+FAVICON = './content/images/ben_favicon.jpg'
+
 # Articles
 #ARTICLE_PATHS = ['blog',]
 #ARTICLE_URL = 'blog/{slug}.html'
