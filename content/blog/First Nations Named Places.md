@@ -3,6 +3,24 @@ Date: 2023-08-01
 Description: How I used Python to create an interactive map that shows places in NSW, Australia that have a name of First Nations origin.
 Tags: geospatial-data, pandas, Python
 
+<style>
+    /* Your raw CSS code goes here */
+    .iframe-container {
+        position: relative;
+        padding-bottom: 66.66%; /* 3:2 aspect ratio (100 * 2/3) */
+        height: 0;
+        overflow: hidden;
+    }
+
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
 Recently I was curious about the origin of my street name and my search online
 led me to the [NSW Geographical Names Board](https://www.gnb.nsw.gov.au/),
 a government body responsible for the management and administration of
@@ -52,10 +70,13 @@ of places that are *not* of First Nations origin.
 
 Creating a Folium map with places of First Nations origin was of no issue, size-wise:
 
+<div class="iframe-container">
 <iframe src="https://ben-nour.com/NSW_geographical_places.html" height="500" width="750"></iframe>
+</div>
+
 
 While I couldn't use Folium to show the vast number of named places that are not of
-First Nations origin you can see it in this bar chart:
+First Nations origin you can see it in this column chart:
 
 <img src="{static}/images/nsw_geographical_places.png" alt="Screenshot of a column chart showing the number of places in NSW, Australia that
 are of First Nations origin vs not." width="500" height="311.87">
