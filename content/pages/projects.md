@@ -6,7 +6,7 @@ Here are some of the projects I've developed:
 
 #### APIs
 
-- [Archer API](https://www.archerapi.com/) - Archer API is a REST API based on the adult animated sitcom. It provides data about Archer's characters,
+- [Archer API](https://www.archerapi.com/) - Archer API is a REST API based on the adult animated sitcom *Archer*. It provides data about *Archer*'s characters,
 episodes and quotes:
 
     - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
