@@ -15,9 +15,9 @@ episodes and quotes:
 
 - [VAST XML Parser](https://github.com/ben-n93/VAST_XML_Parser) - an XML parser that extracts Creative and MediaFile element metadata from Video Ad Serving Template XML tags.
 
-- [CSV to Snowflake CLI](https://github.com/ben-n93/CSV_to_Snowflake) - A command-line tool for uploading CSV data to the Snowflake data warehouse.
+- [CSV to Snowflake](https://github.com/ben-n93/CSV_to_Snowflake) - A command-line tool for uploading CSV data to the Snowflake data warehouse.
 
-- [file_retirement CLI](https://github.com/ben-n93/file_retirement) - A simple command-line script for cleaning up old, duplicate files. Intended use is for automation via Crontab, Windows Task Scheduler, etc.
+- [file_retirement](https://github.com/ben-n93/file_retirement) - A simple command-line tool for cleaning up old, duplicate files. Intended use is for automation via Crontab, Windows Task Scheduler, etc.
 
 
 #### Automation/bots
