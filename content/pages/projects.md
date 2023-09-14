@@ -6,8 +6,8 @@ Here are some of the projects I've developed:
 
 #### APIs
 
-- [Archer API](https://www.archerapi.com/) - Archer API is a REST API based on the adult animated sitcom *Archer*. It provides data about *Archer*'s characters,
-episodes and quotes:
+- [Archer API](https://www.archerapi.com/) is a REST API based on the adult animated sitcom *Archer*. It provides data about *Archer*'s characters,
+episodes and quotes.
 
     - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
 
@@ -22,7 +22,7 @@ episodes and quotes:
 
 #### Automation/bots
 
-- [Gutenberg Sci-Fi Twitter Bot](https://twitter.com/Gutenberg_SciFi) - a Twitter bot that posts daily recommendations of science fiction books from Project Gutenberg's collection of public domain works:
+- [Gutenberg Sci-Fi Twitter Bot](https://twitter.com/Gutenberg_SciFi) - a Twitter bot that posts daily recommendations of science fiction books from Project Gutenberg's collection of public domain works.
 
     - You can read about how I created this project on [my blog](https://ben-nour.com/how-i-created-a-twitter-bot-that-posts-about-science-fiction-books.html#how-i-created-a-twitter-bot-that-posts-about-science-fiction-books).
 
