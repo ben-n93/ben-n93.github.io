@@ -1,3 +1,8 @@
+Title: Analysing my Spotify rock playlist.
+Date: 2023-11-11
+Description: Using Spotify's WebAPI to learn more about my Favourite Rock playlist.
+Tags: data-analysis, data-visualisation, Python, pandas
+
 # Analysing my Spotify rock playlist
 
 Since 2015 I've been adding my most-liked rock songs to the aptly named playlist *Favourite Rock*.
