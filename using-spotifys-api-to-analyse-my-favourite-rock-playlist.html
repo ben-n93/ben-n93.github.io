@@ -18,10 +18,10 @@
 <meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" name="description"/>
 <meta content="data-analysis, data-visualisation, Python, pandas" name="keywords"/>
 <meta content="Ben Nour" property="og:site_name">
-<meta content="Analysing my Spotify rock playlist." property="og:title"/>
+<meta content="Using Spotify's API to analyse my Favourite Rock playlist" property="og:title"/>
 <meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" property="og:description"/>
 <meta content="en_US" property="og:locale"/>
-<meta content="https://ben-nour.com/analysing-my-spotify-rock-playlist.html" property="og:url"/>
+<meta content="https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html" property="og:url"/>
 <meta content="article" property="og:type"/>
 <meta content="2023-11-11 00:00:00+11:00" property="article:published_time"/>
 <meta content="" property="article:modified_time"/>
@@ -32,8 +32,8 @@
 <meta content="Python" property="article:tag"/>
 <meta content="pandas" property="article:tag"/>
 <meta content="" property="og:image"/>
-<title>Ben Nour – Analysing my Spotify rock playlist.</title>
-</meta></meta><link href="https://ben-nour.com/analysing-my-spotify-rock-playlist.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Analysing my spotify rock playlist", "item": "https://ben-nour.com/analysing-my-spotify-rock-playlist.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Analysing my Spotify rock playlist.", "about": "blog", "datePublished": "2023-11-11 00:00"}</script></head>
+<title>Ben Nour – Using Spotify's API to analyse my Favourite Rock playlist</title>
+</meta></meta><link href="https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Using spotifys api to analyse my favourite rock playlist", "item": "https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Using Spotify's API to analyse my Favourite Rock playlist", "about": "blog", "datePublished": "2023-11-11 00:00"}</script></head>
 <body class="light-theme">
 <aside>
 <div>
@@ -82,7 +82,7 @@
 <main>
 <article class="single">
 <header>
-<h1 id="analysing-my-spotify-rock-playlist">Analysing my Spotify rock playlist.</h1>
+<h1 id="using-spotifys-api-to-analyse-my-favourite-rock-playlist">Using Spotify's API to analyse my Favourite Rock playlist</h1>
 <p>
       Posted on Sat 11 November 2023 in <a href="https://ben-nour.com/category/blog.html">blog</a>
 </p>
@@ -316,7 +316,7 @@ Name: count, dtype: int64
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='year_added'&gt;
 </code></pre></div>
-<p><img alt="png" src="output_20_1.png"/></p>
+<p><img src="https://ben-nour.com/images/output_20_1.png"/></p>
 <h3>What era of rock music is most represented?</h3>
 <p>Perhaps unsuprisingly given my age (30 at time of writing), the 2010s were the most popular decade when looking at the number of songs added to the playlist by decade released.</p>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">'release_date_decade'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'release_date'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"0s"</span>
@@ -325,7 +325,7 @@ Name: count, dtype: int64
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='release_date_decade'&gt;
 </code></pre></div>
-<p><img alt="png" src="output_22_1.png"/></p>
+<p><img src="https://ben-nour.com/images/output_22_1.png"/></p>
 <h3>Looking at each era individually, which artist had the most songs featured in my playlist?</h3>
 <div class="highlight"><pre><span></span><code><span class="n">era_artists</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'release_date_decade'</span><span class="p">,</span> <span class="s1">'artist_name'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'song_count'</span><span class="p">)</span>
 <span class="n">max_count_id</span> <span class="o">=</span> <span class="n">era_artists</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'release_date_decade'</span><span class="p">)[</span><span class="s1">'song_count'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
