@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/pygments/github.min.css" id="pygments-light-theme" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="https://ben-nour.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<meta content="Ben Nour" name="author"/>
+<meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" name="description"/>
+<meta content="data-analysis, data-visualisation, Python, pandas" name="keywords"/>
+<meta content="Ben Nour" property="og:site_name">
+<meta content="Using Spotify's API to analyse my Favourite Rock playlist" property="og:title"/>
+<meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" property="og:description"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2023-11-11 00:00:00+11:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="https://ben-nour.com/author/ben-nour.html" property="article:author"/>
+<meta content="blog" property="article:section">
+<meta content="data-analysis" property="article:tag"/>
+<meta content="data-visualisation" property="article:tag"/>
+<meta content="Python" property="article:tag"/>
+<meta content="pandas" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Ben Nour – Using Spotify's API to analyse my Favourite Rock playlist</title>
+</meta></meta><link href="https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Using spotifys api to analyse my favourite rock playlist", "item": "https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Using Spotify's API to analyse my Favourite Rock playlist", "about": "blog", "datePublished": "2023-11-11 00:00"}</script></head>
+<body class="light-theme">
+<aside>
+<div>
+<a href="https://ben-nour.com/">
+<img alt="Ben Nour" src="https://ben-nour.com/theme/img/profile.png" title="Ben Nour"/>
+</a>
+<h1>
+<a href="https://ben-nour.com/">Ben Nour</a>
+</h1>
+<nav>
+<ul class="list">
+<li>
+<a href="https://ben-nour.com/pages/about-me.html#about-me" target="_self">
+                About Me
+              </a>
+</li>
+<li>
+<a href="https://ben-nour.com/pages/projects.html#projects" target="_self">
+                Projects
+              </a>
+</li>
+<li>
+<a href="https://ben-nour.com/category/blog.html" target="_self">blog</a>
+</li>
+</ul>
+</nav>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/ben-n93" target="_blank">
+<i class="fa-brands fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-twitter" href="https://twitter.com/ben_n_93" target="_blank">
+<i class="fa-brands fa-twitter"></i>
+</a>
+</li>
+<li>
+<a class="sc-medium" href="https://medium.com/@ben.nour_68691" target="_blank">
+<i class="fa-brands fa-medium"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<article class="single">
+<header>
+<h1 id="using-spotifys-api-to-analyse-my-favourite-rock-playlist">Using Spotify's API to analyse my Favourite Rock playlist</h1>
+<p>
+      Posted on Sat 11 November 2023 in <a href="https://ben-nour.com/category/blog.html">blog</a>
+</p>
+</header>
+<div>
+<p>Since 2015 I've been adding my most-liked rock songs to the aptly named playlist <em>Favourite Rock</em>.</p>
+<p>I thought it'd be fun to use content metadata from Spotify's <a href="https://developer.spotify.com/documentation/web-api">Web API</a> to learn more about my taste in rock music, such as favourite music era and how often I've added to the playlist over the years.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+<h2>Getting the data</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Getting the API access token.</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://accounts.spotify.com/api/token"</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/x-www-form-urlencoded"</span>
+<span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"grant_type"</span><span class="p">:</span> <span class="s2">"client_credentials"</span><span class="p">,</span>
+    <span class="s2">"client_id"</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SPOTIFY_CLIENT_ID'</span><span class="p">],</span>
+    <span class="s2">"client_secret"</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SPOTIFY_CLIENT_SECRET'</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">'access_token'</span><span class="p">]</span>
+</code></pre></div>
+<p>The <strong><a href="https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks">Get Playlist Items</a></strong> endpoint returns a maximum of 50 items (tracks/songs). </p>
+<p>However in the API call you can specify the index of the first item to return, a parameter which you can take advantage of to make multiple API calls to capture all songs on the playlist:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Getting all the songs in my Favourite Rock playlist.</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">}</span>
+
+<span class="n">tracks</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">520</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">"https://api.spotify.com/v1/playlists/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PLAYLIST_ID'</span><span class="p">]</span><span class="si">}</span><span class="s2">/tracks?limit=50&amp;offset=</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="n">tracks</span> <span class="o">=</span> <span class="n">tracks</span> <span class="o">+</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'items'</span><span class="p">])</span>
+
+<span class="c1"># Double check that my list contains all the playlist songs.</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'total'</span><span class="p">]</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span> 
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>True
+</code></pre></div>
+<h2>Transforming the data</h2>
+<p>Not all of the metadata returned from the API is relevant, as you can infer from a look at the following JSON keys (for example, 'video_thumbnail'), or structured in a way that can be passed to a pandas DataFrame immediately. </p>
+<div class="highlight"><pre><span></span><code><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>dict_keys(['added_at', 'added_by', 'is_local', 'primary_color', 'track', 'video_thumbnail'])
+</code></pre></div>
+<p>The artist name is nested with the 'artists' key.</p>
+<div class="highlight"><pre><span></span><code><span class="n">tracks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'track'</span><span class="p">][</span><span class="s1">'artists'</span><span class="p">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>[{'external_urls': {'spotify': 'https://open.spotify.com/artist/6bUJpbekaIlq2fT5FMV2mQ'},
+  'href': 'https://api.spotify.com/v1/artists/6bUJpbekaIlq2fT5FMV2mQ',
+  'id': '6bUJpbekaIlq2fT5FMV2mQ',
+  'name': 'Wavves',
+  'type': 'artist',
+  'uri': 'spotify:artist:6bUJpbekaIlq2fT5FMV2mQ'}]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Creating a list of track dictionaries.</span>
+<span class="n">new_tracks</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">tracks</span><span class="p">:</span>
+    <span class="n">new_track</span> <span class="o">=</span> <span class="n">track</span><span class="p">[</span><span class="s1">'track'</span><span class="p">]</span>
+    <span class="n">new_track</span><span class="p">[</span><span class="s1">'added_at'</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="p">[</span><span class="s1">'added_at'</span><span class="p">]</span>
+    <span class="n">new_track</span><span class="p">[</span><span class="s1">'release_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="p">[</span><span class="s1">'track'</span><span class="p">][</span><span class="s1">'album'</span><span class="p">][</span><span class="s1">'release_date'</span><span class="p">]</span>
+    <span class="n">new_track</span><span class="p">[</span><span class="s1">'artist_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">track</span><span class="p">[</span><span class="s1">'track'</span><span class="p">][</span><span class="s1">'artists'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span>
+    <span class="n">new_tracks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_track</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_tracks</span><span class="p">)</span>
+<span class="c1"># Keeping only relevant columns.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'artist_name'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'duration_ms'</span><span class="p">,</span> <span class="s1">'release_date'</span><span class="p">,</span> <span class="s1">'added_at'</span><span class="p">]]</span>
+<span class="n">df</span><span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'name'</span><span class="p">:</span><span class="s1">'track_name'</span><span class="p">})</span>
+<span class="n">df</span>
+</code></pre></div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>artist_name</th>
+<th>track_name</th>
+<th>duration_ms</th>
+<th>release_date</th>
+<th>added_at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>Wavves</td>
+<td>Way Too Much</td>
+<td>153640</td>
+<td>2015-07-21</td>
+<td>2015-11-01T13:20:26Z</td>
+</tr>
+<tr>
+<th>1</th>
+<td>The Rubens</td>
+<td>Hoops</td>
+<td>158973</td>
+<td>2015-08-07</td>
+<td>2015-11-01T13:17:48Z</td>
+</tr>
+<tr>
+<th>2</th>
+<td>Lurch &amp; Chief</td>
+<td>Keep It Together</td>
+<td>236280</td>
+<td>2014-10-17</td>
+<td>2015-11-01T13:23:21Z</td>
+</tr>
+<tr>
+<th>3</th>
+<td>Violent Soho</td>
+<td>Covered in Chrome</td>
+<td>212546</td>
+<td>2013-09-06</td>
+<td>2015-11-03T07:05:03Z</td>
+</tr>
+<tr>
+<th>4</th>
+<td>Foo Fighters</td>
+<td>Everlong</td>
+<td>250546</td>
+<td>1997-05-20</td>
+<td>2015-11-01T13:17:59Z</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>515</th>
+<td>Ainslie Wills</td>
+<td>Drive</td>
+<td>301910</td>
+<td>2015-09-14</td>
+<td>2023-11-05T12:28:19Z</td>
+</tr>
+<tr>
+<th>516</th>
+<td>Sonic Youth</td>
+<td>Sunday</td>
+<td>292306</td>
+<td>1998-01-01</td>
+<td>2023-11-05T12:31:29Z</td>
+</tr>
+<tr>
+<th>517</th>
+<td>Brand New</td>
+<td>The Quiet Things That No One Ever Knows</td>
+<td>241640</td>
+<td>2003</td>
+<td>2023-11-05T12:36:23Z</td>
+</tr>
+<tr>
+<th>518</th>
+<td>Chastity Belt</td>
+<td>Lydia</td>
+<td>239826</td>
+<td>2015-03-23</td>
+<td>2023-11-05T12:40:02Z</td>
+</tr>
+<tr>
+<th>519</th>
+<td>The Velvet Underground</td>
+<td>Oh! Sweet Nuthin'</td>
+<td>444778</td>
+<td>1970</td>
+<td>2023-11-07T08:31:32Z</td>
+</tr>
+</tbody>
+</table>
+<p>520 rows × 5 columns</p>
+</div>
+<h2>Data analysis</h2>
+<p>Now that we have a pandas DataFrame I can start doing some data analysis.</p>
+<h3>Which artist appears the most frequently?</h3>
+<p>I was curious to see which artist has the most songs featured on the playlist.</p>
+<p>Unsuprisingly it was my favourite band - Nirvana!</p>
+<div class="highlight"><pre><span></span><code><span class="n">most_popular_artists</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'artist_name'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">most_popular_artists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>artist_name
+Nirvana    15
+Name: count, dtype: int64
+</code></pre></div>
+<h3>What is the shortest and longest song in the playlist?</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Creating a more readable song length column.</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'song_length'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'duration_ms'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">max_length_index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'song_length'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">max_song</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">max_length_index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Song: </span><span class="si">{</span><span class="n">max_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, Artist: </span><span class="si">{</span><span class="n">max_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, Song length: </span><span class="si">{</span><span class="n">max_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">Song</span><span class="o">:</span><span class="w"> </span><span class="n">Beach</span><span class="w"> </span><span class="n">Life</span><span class="o">-</span><span class="n">In</span><span class="o">-</span><span class="n">Death</span><span class="o">,</span><span class="w"> </span><span class="n">Artist</span><span class="o">:</span><span class="w"> </span><span class="n">Car</span><span class="w"> </span><span class="n">Seat</span><span class="w"> </span><span class="n">Headrest</span><span class="o">,</span><span class="w"> </span><span class="n">Song</span><span class="w"> </span><span class="n">length</span><span class="o">:</span><span class="w"> </span><span class="mf">13.31</span>
+</code></pre></div>
+<p>13 minutes!</p>
+<div class="highlight"><pre><span></span><code><span class="n">min_length_index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'song_length'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span>
+<span class="n">min_song</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">min_length_index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Song: </span><span class="si">{</span><span class="n">min_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, Artist: </span><span class="si">{</span><span class="n">min_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">, Song length: </span><span class="si">{</span><span class="n">min_song</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">Song</span><span class="o">:</span><span class="w"> </span><span class="n">We</span><span class="w"> </span><span class="n">See</span><span class="w"> </span><span class="n">U</span><span class="o">,</span><span class="w"> </span><span class="n">Artist</span><span class="o">:</span><span class="w"> </span><span class="n">Speed</span><span class="o">,</span><span class="w"> </span><span class="n">Song</span><span class="w"> </span><span class="n">length</span><span class="o">:</span><span class="w"> </span><span class="mf">1.06</span>
+</code></pre></div>
+<h3>How many songs have I added to the playlist over the years?</h3>
+<p>I was curious to see if I added a similar number of songs per year since creating the playlist.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">'year_added'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'added_at'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="c1"># Creating a year_added column.</span>
+<span class="n">songs_per_years</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'year_added'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">songs_per_years</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='year_added'&gt;
+</code></pre></div>
+<p><img src="https://ben-nour.com/images/output_20_1.png"/></p>
+<h3>What era of rock music is most represented?</h3>
+<p>Perhaps unsuprisingly given my age (30 at time of writing), the 2010s were the most popular decade when looking at the number of songs added to the playlist by decade released.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">'release_date_decade'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'release_date'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"0s"</span>
+<span class="n">rock_era_song_count</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'release_date_decade'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">rock_era_song_count</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='release_date_decade'&gt;
+</code></pre></div>
+<p><img src="https://ben-nour.com/images/output_22_1.png"/></p>
+<h3>Looking at each era individually, which artist had the most songs featured in my playlist?</h3>
+<div class="highlight"><pre><span></span><code><span class="n">era_artists</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'release_date_decade'</span><span class="p">,</span> <span class="s1">'artist_name'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'song_count'</span><span class="p">)</span>
+<span class="n">max_count_id</span> <span class="o">=</span> <span class="n">era_artists</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'release_date_decade'</span><span class="p">)[</span><span class="s1">'song_count'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+<span class="n">top_artists_per_era</span> <span class="o">=</span> <span class="n">era_artists</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">max_count_id</span><span class="p">]</span>
+<span class="n">top_artists_per_era</span>
+</code></pre></div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>release_date_decade</th>
+<th>artist_name</th>
+<th>song_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1960s</td>
+<td>The Beatles</td>
+<td>1</td>
+</tr>
+<tr>
+<th>3</th>
+<td>1970s</td>
+<td>David Bowie</td>
+<td>2</td>
+</tr>
+<tr>
+<th>15</th>
+<td>1980s</td>
+<td>Descendents</td>
+<td>5</td>
+</tr>
+<tr>
+<th>44</th>
+<td>1990s</td>
+<td>Nirvana</td>
+<td>10</td>
+</tr>
+<tr>
+<th>87</th>
+<td>2000s</td>
+<td>NOFX</td>
+<td>8</td>
+</tr>
+<tr>
+<th>283</th>
+<td>2010s</td>
+<td>Violent Soho</td>
+<td>8</td>
+</tr>
+<tr>
+<th>294</th>
+<td>2020s</td>
+<td>Amyl and The Sniffers</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>Conclusion</h2>
+<p>Some interesting insights came out of this analysis, my favourites of which include:</p>
+<ul>
+<li>
+<p>The longest song on my playlist is over 13 minutes long and the shortest is just over a minute long.</p>
+</li>
+<li>
+<p>The 2010s are my favourite era of rock music, going off of the number of songs from each decade of rock music.</p>
+</li>
+<li>
+<p>I added the most songs to the playlist in 2016 but since 2020 I've been adding more and more songs every year. </p>
+</li>
+</ul>
+<p>Thanks for reading!</p>
+<p>You can find this Jupyter Notebook in this <a href="https://github.com/ben-n93/spotify_rock_playlist_analysis">Github repo</a>.</p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="https://ben-nour.com/tag/data-analysis.html">data-analysis</a>
+<a href="https://ben-nour.com/tag/data-visualisation.html">data-visualisation</a>
+<a href="https://ben-nour.com/tag/python.html">Python</a>
+<a href="https://ben-nour.com/tag/pandas.html">pandas</a>
+</p>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ben-nour';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>©  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer> </main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Ben Nour ",
+  "url" : "https://ben-nour.com",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
+</html>

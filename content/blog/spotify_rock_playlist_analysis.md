@@ -1,9 +1,7 @@
-Title: Analysing my Spotify rock playlist.
+Title: Using Spotify's API to analyse my Favourite Rock playlist
 Date: 2023-11-11
 Description: Using Spotify's WebAPI to learn more about my Favourite Rock playlist.
 Tags: data-analysis, data-visualisation, Python, pandas
-
-# Analysing my Spotify rock playlist
 
 Since 2015 I've been adding my most-liked rock songs to the aptly named playlist *Favourite Rock*.
 
@@ -316,10 +314,7 @@ songs_per_years.plot()
     <Axes: xlabel='year_added'>
 
 
-
-
-    
-![png](output_20_1.png)
+<img src="{static}/images/output_20_1.png">
     
 
 
@@ -340,9 +335,9 @@ rock_era_song_count.plot(kind="bar", rot=0)
 
 
 
-
     
-![png](output_22_1.png)
+<img src="{static}/images/output_22_1.png">
+
     
 
 
