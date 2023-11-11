@@ -1,4 +1,4 @@
-from pelican.plugins import pelican_jupyter_reader
+#from pelican.plugins import pelican_jupyter_reader
 
 AUTHOR = "Ben Nour"
 SITENAME = "Ben Nour"
