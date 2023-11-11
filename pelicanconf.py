@@ -1,3 +1,5 @@
+from pelican.plugins import pelican_jupyter_reader
+
 AUTHOR = "Ben Nour"
 SITENAME = "Ben Nour"
 SITEURL = 'https://ben-nour.com'
@@ -9,7 +11,7 @@ EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},
 'extra/favicon.ico': {'path': 'favicon.ico'}
 }
 
-PLUGINS = ["sitemap", "seo"]
+PLUGINS = ['sitemap', 'seo', 'pelican_jupyter_reader']
 
 TIMEZONE = "Australia/Sydney"
 
