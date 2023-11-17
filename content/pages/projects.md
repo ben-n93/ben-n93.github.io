@@ -26,11 +26,15 @@ episodes and quotes.
 
     - You can read about how I created this project on [my blog](https://ben-nour.com/how-i-created-a-twitter-bot-that-posts-about-science-fiction-books.html#how-i-created-a-twitter-bot-that-posts-about-science-fiction-books).
 
+#### Data analysis
+
+- I have analysed and visualised different data sets, primarily using Juypter Notebooks and the pandas library. Some of my favourite projects include:
+
+    - [Which Sydney LGAs have the lowest and highest unemployment rates?](https://ben-nour.com/which-sydney-lgas-have-the-lowest-and-highest-unemployment-rates.html)
+    - [Using Spotify's API to analyse my Favourite Rock playlist](https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html)
+    - [Where are Australia's oil and gas pipelines located?](https://ben-nour.com/where-are-australias-oil-and-gas-pipelines-located.html)
 
 #### Misc
 
-- [Programming blog](https://medium.com/@ben.nour_68691) - I write about all things Python, covering everything from deep dives into modules from the standard library to projects. Here are some of my favourite posts:
-
-    - [Using Python to scrape Wikipedia for World Cup 2022 match information](https://medium.com/@ben.nour_68691/using-python-to-scrape-wikipedia-for-world-cup-2022-match-information-b45c99845c07)
-    - [Creating a Star Wars character generator with Python](https://medium.com/@ben.nour_68691/creating-a-star-wars-character-generator-using-python-902dfaa087)
-    - [Using Python to encrypt with the Polybius checkerboard cipher](https://medium.com/@ben.nour_68691/using-python-to-encrypt-with-the-polybius-checkerboard-cipher-d1adf1c163b9)
+- [Medium blog](https://medium.com/@ben.nour_68691) - On Medium I write about all things data, from [applying colour conditional formatting in Tableau](https://medium.com/@ben.nour_68691/applying-colour-conditional-formatting-to-individual-table-columns-in-tableau-23e6e82d8251) to 
+[splitting delimited strings in Snowflake](https://medium.com/@ben.nour_68691/splitting-a-delimited-string-column-into-rows-using-snowflake-84930d257910).
