@@ -1,7 +1,6 @@
 Title: Using Spotify's Web API to analyse my Favourite Rock playlist
 Date: 2023-11-11
-Description: Using Python and Spotify's WebAPI to learn interesting facts about my Favourite Rock playlist. The pandas library is used
-to clean and analyse the data.
+Description: Using Python and Spotify's WebAPI to learn interesting facts about my Favourite Rock playlist. The pandas library is used to clean/analyse the data.
 Tags: data-analysis, data-visualisation, Python, pandas
 
 <!-- Google tag (gtag.js) -->
