@@ -15,11 +15,11 @@
 <link href="https://ben-nour.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
 <link href="https://ben-nour.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
 <meta content="Ben Nour" name="author"/>
-<meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" name="description"/>
+<meta content="window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TFP90633KX'); Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my …" name="description"/>
 <meta content="data-analysis, data-visualisation, Python, pandas" name="keywords"/>
 <meta content="Ben Nour" property="og:site_name">
 <meta content="Using Spotify's API to analyse my Favourite Rock playlist" property="og:title"/>
-<meta content="Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my taste in rock music, such as favourite music era and how often I've added to the …" property="og:description"/>
+<meta content="window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TFP90633KX'); Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my …" property="og:description"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html" property="og:url"/>
 <meta content="article" property="og:type"/>
@@ -88,6 +88,15 @@
 </p>
 </header>
 <div>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
 <p>Since 2015 I've been adding my most-liked rock songs to the aptly named playlist <em>Favourite Rock</em>.</p>
 <p>I thought it'd be fun to use content metadata from Spotify's <a href="https://developer.spotify.com/documentation/web-api">Web API</a> to learn more about my taste in rock music, such as favourite music era and how often I've added to the playlist over the years.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
