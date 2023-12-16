@@ -1,6 +1,6 @@
-Title: Where are Australia's oil and gas pipelines located?
+Title: Where are Australia's existing/proposed oil and gas pipelines located?
 Date: 2023-03-22
-Description: Where Australia's existing and gas pipelines are located. How I created an interactive map of this using Python and Folium.
+Description: A map of where Australia's existing and gas pipelines are located. I explain how I created this interactive choropleth map using Python/the Folium package.
 Tags: data-visualisation, geospatial-data, Python
 
 <!-- Google tag (gtag.js) -->

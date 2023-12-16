@@ -1,6 +1,6 @@
 Title: Introducing Archer API
 Date: 2023-04-22
-Description: Introducing Archer API, a REST API built with Python and Flask.
+Description: How I created Archer API, a REST API built with Python, Flask and Heroku, that provides JSON data about the FX adult animated spy-comedy series Archer.
 Tags: API, data-engineering
 
 <!-- Google tag (gtag.js) -->

@@ -1,6 +1,6 @@
 Title: Officially named places of First Nations origin in NSW, Australia
 Date: 2023-08-01
-Description: How I used Python to create an interactive map that shows places in NSW, Australia that have a name of First Nations origin.
+Description: How I used Python to transform JSON data create an interactive, choropleth map that shows places in NSW, Australia that have a name of First Nations origin.
 Tags: data-visualisation, geospatial-data, Python
 
 <!-- Google tag (gtag.js) -->

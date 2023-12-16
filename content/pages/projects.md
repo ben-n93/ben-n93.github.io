@@ -1,6 +1,6 @@
 Title: Projects
 Category: Projects
-Description: Ben Nour's Python projects, which cover everything from Twitter bots to APIs.
+Description: A showcase of Ben Nour's various data/technology/developer projects, which cover projects including a Twitter bot, API, tools and various data analysis pieces.
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
