@@ -2,6 +2,16 @@ Title: About Me
 Category: About Me
 Description: About Ben Nour, a data analyst/developer based in Sydney, Australia.
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 Hi there!
 
 I'm a data analyst based in Sydney, Australia.
