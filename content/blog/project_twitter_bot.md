@@ -3,6 +3,16 @@ Date: 2023-03-31
 Description: Using Python to create an automated Twitter bot to post about science fiction books.
 Tags: twitter-bot, data-engineering
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 <style>
 img {
   border: 1px solid #BFBFBF;

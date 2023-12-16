@@ -3,6 +3,16 @@ Date: 2023-04-22
 Description: Introducing Archer API, a REST API built with Python and Flask.
 Tags: API, data-engineering
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 Introducing [Archer API](https://www.archerapi.com/), a REST API based on one of my favourite shows, the
 adult animated spy comedy [Archer](https://www.imdb.com/title/tt1486217/).
 

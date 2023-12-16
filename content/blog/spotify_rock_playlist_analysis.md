@@ -3,6 +3,16 @@ Date: 2023-11-11
 Description: Using Spotify's WebAPI to learn more about my Favourite Rock playlist.
 Tags: data-analysis, data-visualisation, Python, pandas
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 Since 2015 I've been adding my most-liked rock songs to the aptly named playlist *Favourite Rock*.
 
 

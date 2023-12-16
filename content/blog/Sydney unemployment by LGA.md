@@ -3,6 +3,16 @@ Date: 2023-11-16
 Description: Visualising on a map Sydney's unemployment rate by local government area.
 Tags: data-analysis, data-visualisation, Python, pandas
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 The Australian government's [Jobs and Skills Australia](https://www.jobsandskills.gov.au/engage/about) has an insightful [dataset](https://www.jobsandskills.gov.au/data/small-area-labour-markets) I recently came across - quarterly Small Area Labour Markets (SALM) estimates of unemployment and the unemployment rate, broken out by local government area (LGA).
 
 Here it is visualised:

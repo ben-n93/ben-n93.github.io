@@ -3,6 +3,16 @@ Date: 2023-08-01
 Description: How I used Python to create an interactive map that shows places in NSW, Australia that have a name of First Nations origin.
 Tags: data-visualisation, geospatial-data, Python
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 <style>
     /* CSS code. */
     .iframe-container {

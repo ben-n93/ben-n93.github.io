@@ -2,6 +2,16 @@ Title: Projects
 Category: Projects
 Description: Ben Nour's Python projects, which cover everything from Twitter bots to APIs.
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 Here are some of the projects I've developed:
 
 #### APIs

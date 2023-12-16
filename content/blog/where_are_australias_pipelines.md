@@ -3,6 +3,16 @@ Date: 2023-03-22
 Description: Where Australia's existing and gas pipelines are located. How I created an interactive map of this using Python and Folium.
 Tags: data-visualisation, geospatial-data, Python
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+
 <style>
     /* CSS code. */
     .iframe-container {
