@@ -88,7 +88,7 @@ Creating a Folium map with places of First Nations origin was of no issue, size-
 While I couldn't use Folium to show the vast number of named places that are not of
 First Nations origin you can see it in this column chart:
 
-<img src="{static}/images/nsw_geographical_places.png" alt="Screenshot of a column chart showing the number of places in NSW, Australia that
+<img src="{static}/images/nsw_geographical_places.webp" alt="Screenshot of a column chart showing the number of places in NSW, Australia that
 are of First Nations origin vs not." width="500" height="311.87">
 
 If you want to see the Jupyter Notebook I used for this you can check it out
