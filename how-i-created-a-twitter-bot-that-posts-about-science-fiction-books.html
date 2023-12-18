@@ -103,7 +103,7 @@ img {
 <p>As an avid reader I thought it would be cool to combine my love of literature and
 data to create a <a href="https://twitter.com/Gutenberg_SciFi">Twitter bot</a> that 
 posts about sci-fi books :</p>
-<p><img alt="Screenshot of the Project Gutenberg Sci-Fi books Twitter account" height="311.87" src="https://ben-nour.com/images/pg_twitter_bot.png" width="500"/></p>
+<p><img alt="Screenshot of the Project Gutenberg Sci-Fi books Twitter account" height="311.87" src="https://ben-nour.com/images/pg_twitter_bot.webp" width="500"/></p>
 <p>Specifically I wanted to recommend science fiction books that you could read 
 free of charge, something made possible thanks to 
 <a href="https://www.gutenberg.org/">Project Gutenberg</a>, a volunteer-run organisation 
@@ -254,7 +254,7 @@ not as readable for the intended end user of this bot:</p>
         <span class="k">return</span> <span class="n">cleaned_authors</span>
 </code></pre></div>
 <p>Using our <em>The Defenders</em> example from before, here is the cleaned data:</p>
-<p><img height="285" src="images/twitter_cleaned_data_example.png" width="598"/></p>
+<p><img height="285" src="images/twitter_cleaned_data_example.webp" width="598"/></p>
 <h2>Choosing a book to post about</h2>
 <p>Before a random book is selected from the science fiction catalog to be posted to Twitter, there are a couple of checks that 
 take place.</p>
@@ -333,7 +333,7 @@ its Text# is logged to the IDs CSV and the book is posted to Twitter:</p>
 <span class="n">client</span><span class="o">.</span><span class="n">create_tweet</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Check out </span><span class="si">{</span><span class="n">book_pick</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> by </span><span class="si">{</span><span class="n">authors_string</span><span class="si">}</span><span class="s2">. #ebook #sciencefiction </span><span class="si">{</span><span class="n">book_pick</span><span class="o">.</span><span class="n">URL</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <p>Here's an example:</p>
-<p><img height="285" src="images/tweet_example.png" width="598"/></p>
+<p><img height="285" src="images/tweet_example.webp" width="598"/></p>
 <h3>Automation</h3>
 <p>In order to make my Twitter bot automatically post a random book recommendation twice a day (at 7am and 7pm UTC time), I utilized Github Actions to create a customized workflow. This allowed me to automate the process of selecting and posting a book recommendation without the need for manual intervention:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Post book tweet</span>
