@@ -324,7 +324,7 @@ songs_per_years.plot()
     <Axes: xlabel='year_added'>
 
 
-<img src="{static}/images/output_20_1.png">
+<img src="{static}/images/output_20_1.webp">
     
 
 
@@ -346,7 +346,7 @@ rock_era_song_count.plot(kind="bar", rot=0)
 
 
     
-<img src="{static}/images/output_22_1.png">
+<img src="{static}/images/output_22_1.webp">
 
     
 

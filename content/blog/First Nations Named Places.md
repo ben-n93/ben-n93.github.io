@@ -64,7 +64,7 @@ So what I've done is also included any places that, according to the MEANING or 
 
 Again, I can't speak to the accuracy of these fields - you can see my doubt when presented with descriptions like this:
 
-<img src="{static}/images/tilcha_creek.jpg" alt="Screenshot of metadata about a geographical location (Tilcha Creek) with NSW, Australia that is of First Nations origin.">
+<img src="{static}/images/tilcha_creek.webp" alt="Screenshot of metadata about a geographical location (Tilcha Creek) with NSW, Australia that is of First Nations origin.">
 
 However I've included these places anyway.
 

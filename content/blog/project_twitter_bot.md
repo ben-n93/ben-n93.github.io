@@ -23,7 +23,7 @@ As an avid reader I thought it would be cool to combine my love of literature an
 data to create a [Twitter bot](https://twitter.com/Gutenberg_SciFi) that 
 posts about sci-fi books :
 
-<img src="{static}/images/pg_twitter_bot.png" alt="Screenshot of the Project Gutenberg Sci-Fi books Twitter account" width="500" height="311.87">
+<img src="{static}/images/pg_twitter_bot.webp" alt="Screenshot of the Project Gutenberg Sci-Fi books Twitter account" width="500" height="311.87">
 
 Specifically I wanted to recommend science fiction books that you could read 
 free of charge, something made possible thanks to 
@@ -133,7 +133,7 @@ class Book:
 
 Using our *The Defenders* example from before, here is the cleaned data:
 
-<img src="images/twitter_cleaned_data_example.png" width=598 height=285>
+<img src="images/twitter_cleaned_data_example.webp" width=598 height=285>
 
 ## Choosing a book to post about
 
@@ -225,7 +225,7 @@ client.create_tweet(text=f"Check out {book_pick.title} by {authors_string}. #ebo
 
 Here's an example:
 
-<img src="images/tweet_example.png" width=598 height=285>
+<img src="images/tweet_example.webp" width=598 height=285>
 
 ### Automation
 
