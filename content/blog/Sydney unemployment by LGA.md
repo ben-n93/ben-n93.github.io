@@ -1,7 +1,7 @@
 Title: Which Sydney LGAs have the lowest and highest unemployment rates?
 Date: 2023-11-16
 Description: Visualising on a Choropleth map Sydney's unemployment rate by local government area, based on Australian government data from Jobs and Skills Australia.
-Tags: data-analysis, data-visualisation, Python, pandas
+Tags: data-analysis, data-visualisation, Python, pandas, geospatial-data
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
