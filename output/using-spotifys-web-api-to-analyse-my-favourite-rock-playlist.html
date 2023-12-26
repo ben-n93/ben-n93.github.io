@@ -325,7 +325,7 @@ Name: count, dtype: int64
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='year_added'&gt;
 </code></pre></div>
-<p><img src="https://ben-nour.com/images/output_20_1.png"/></p>
+<p><img src="https://ben-nour.com/images/output_20_1.webp"/></p>
 <h3>What era of rock music is most represented?</h3>
 <p>Perhaps unsuprisingly given my age (30 at time of writing), the 2010s were the most popular decade when looking at the number of songs added to the playlist by decade released.</p>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="p">[</span><span class="s1">'release_date_decade'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'release_date'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"0s"</span>
@@ -334,7 +334,7 @@ Name: count, dtype: int64
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>&lt;Axes: xlabel='release_date_decade'&gt;
 </code></pre></div>
-<p><img src="https://ben-nour.com/images/output_22_1.png"/></p>
+<p><img src="https://ben-nour.com/images/output_22_1.webp"/></p>
 <h3>Looking at each era individually, which artist had the most songs featured in my playlist?</h3>
 <div class="highlight"><pre><span></span><code><span class="n">era_artists</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'release_date_decade'</span><span class="p">,</span> <span class="s1">'artist_name'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'song_count'</span><span class="p">)</span>
 <span class="n">max_count_id</span> <span class="o">=</span> <span class="n">era_artists</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'release_date_decade'</span><span class="p">)[</span><span class="s1">'song_count'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
