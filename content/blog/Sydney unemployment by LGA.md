@@ -238,8 +238,7 @@ new_geojson = {'type':'FeatureCollection'}
 # and adding unemployment_rate to the Feature properties.
 features = []
 for feature in geojson['features']:
-    if feature['properties']['NSW_LGA__3'] not in ('UNINCORPORATED', 'CENTRAL COAST', 'BLUE MOUNTAINS', 'WOLLONDILLY', 'HAWKESBURY'):
-        feature_lga = feature['properties']['NSW_LGA__3']
+    if (feature_lga:= feature['properties']['NSW_LGA__3']) not in ('UNINCORPORATED', 'CENTRAL COAST', 'BLUE MOUNTAINS', 'WOLLONDILLY', 'HAWKESBURY'):
         try:
             unemployment_rate = df.at[feature_lga, 'unemployment_rate']
             unemployment_rate = str(unemployment_rate) + '%'
