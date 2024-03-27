@@ -1,93 +1,85 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-<meta content="True" name="HandheldFriendly"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="" name="robots"/>
-<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-<link href="https://ben-nour.com/theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
-<link href="https://ben-nour.com/theme/pygments/github.min.css" id="pygments-light-theme" rel="stylesheet" type="text/css"/>
-<link href="https://ben-nour.com/theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
-<link href="https://ben-nour.com/theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
-<link href="https://ben-nour.com/theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
-<meta content="Ben Nour" name="author"/>
-<meta content="window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TFP90633KX'); Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my …" name="description"/>
-<meta content="data-analysis, data-visualisation, Python, pandas" name="keywords"/>
-<meta content="Ben Nour" property="og:site_name">
-<meta content="Using Spotify's Web API to analyse my Favourite Rock playlist" property="og:title"/>
-<meta content="window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TFP90633KX'); Since 2015 I've been adding my most-liked rock songs to the aptly named playlist Favourite Rock. I thought it'd be fun to use content metadata from Spotify's Web API to learn more about my …" property="og:description"/>
-<meta content="en_US" property="og:locale"/>
-<meta content="https://ben-nour.com/using-spotifys-web-api-to-analyse-my-favourite-rock-playlist.html" property="og:url"/>
-<meta content="article" property="og:type"/>
-<meta content="2023-11-11 00:00:00+11:00" property="article:published_time"/>
-<meta content="" property="article:modified_time"/>
-<meta content="https://ben-nour.com/author/ben-nour.html" property="article:author"/>
-<meta content="blog" property="article:section">
-<meta content="data-analysis" property="article:tag"/>
-<meta content="data-visualisation" property="article:tag"/>
-<meta content="Python" property="article:tag"/>
-<meta content="pandas" property="article:tag"/>
-<meta content="" property="og:image"/>
-<title>Ben Nour – Using Spotify's Web API to analyse my Favourite Rock playlist</title>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Using Spotify's Web API to analyse my Favourite Rock playlist</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://aleylara.github.io/Peli-Kiera/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="Using Python and Spotify's WebAPI to learn interesting facts about my Favourite Rock playlist. The pandas library is used to clean/transform/analyse the data." name="description">
+<meta content="data-analysis" name="tags">
+<meta content="data-visualisation" name="tags"/>
+<meta content="Python" name="tags"/>
+<meta content="pandas" name="tags"/>
 </meta></meta><link href="https://ben-nour.com/using-spotifys-web-api-to-analyse-my-favourite-rock-playlist.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Using spotifys web api to analyse my favourite rock playlist", "item": "https://ben-nour.com/using-spotifys-web-api-to-analyse-my-favourite-rock-playlist.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Using Spotify's Web API to analyse my Favourite Rock playlist", "about": "blog", "datePublished": "2023-11-11 00:00"}</script></head>
-<body class="light-theme">
-<aside>
-<div>
-<a href="https://ben-nour.com/">
-<img alt="Ben Nour" src="https://ben-nour.com/theme/img/profile.png" title="Ben Nour"/>
-</a>
-<h1>
-<a href="https://ben-nour.com/">Ben Nour</a>
-</h1>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style> <div id="container">
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+<li><a href="https://medium.com/@ben.nour_68691"><i aria-hidden="true" class="fab fa-medium fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
 <nav>
-<ul class="list">
-<li>
-<a href="https://ben-nour.com/pages/about-me.html#about-me" target="_self">
-                About Me
-              </a>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a>
 </li>
-<li>
-<a href="https://ben-nour.com/pages/projects.html#projects" target="_self">
-                Projects
-              </a>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a>
 </li>
-<li>
-<a href="https://ben-nour.com/category/blog.html" target="_self">blog</a>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a>
 </li>
 </ul>
 </nav>
-<ul class="social">
+<main>
+<article>
+<h1>Using Spotify's Web API to analyse my Favourite Rock playlist</h1>
+<aside>
+<ul>
 <li>
-<a class="sc-github" href="https://github.com/ben-n93" target="_blank">
-<i class="fa-brands fa-github"></i>
-</a>
+<time datetime="2023-11-11 00:00:00+11:00">Nov 11, 2023</time>
 </li>
 <li>
-<a class="sc-twitter" href="https://twitter.com/benjamin_nour" target="_blank">
-<i class="fa-brands fa-twitter"></i>
-</a>
+                    Categories:
+                    <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
 </li>
 <li>
-<a class="sc-medium" href="https://medium.com/@ben.nour_68691" target="_blank">
-<i class="fa-brands fa-medium"></i>
-</a>
+                    Tags:
+                    <a href="https://ben-nour.com/tag/data-analysis.html"><em>#data-analysis</em></a>
+<a href="https://ben-nour.com/tag/data-visualisation.html"><em>#data-visualisation</em></a>
+<a href="https://ben-nour.com/tag/python.html"><em>#Python</em></a>
+<a href="https://ben-nour.com/tag/pandas.html"><em>#pandas</em></a>
 </li>
 </ul>
-</div>
 </aside>
-<main>
-<article class="single">
-<header>
-<h1 id="using-spotifys-web-api-to-analyse-my-favourite-rock-playlist">Using Spotify's Web API to analyse my Favourite Rock playlist</h1>
-<p>
-      Posted on Sat 11 November 2023 in <a href="https://ben-nour.com/category/blog.html">blog</a>
-</p>
-</header>
-<div>
 <!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
 <script>
@@ -425,44 +417,46 @@ Name: count, dtype: int64
 </ul>
 <p>Thanks for reading!</p>
 <p>You can find this Jupyter Notebook in this <a href="https://github.com/ben-n93/spotify_rock_playlist_analysis">Github repo</a>.</p>
-</div>
-<div class="tag-cloud">
-<p>
-<a href="https://ben-nour.com/tag/data-analysis.html">data-analysis</a>
-<a href="https://ben-nour.com/tag/data-visualisation.html">data-visualisation</a>
-<a href="https://ben-nour.com/tag/python.html">Python</a>
-<a href="https://ben-nour.com/tag/pandas.html">pandas</a>
-</p>
-</div>
-<!-- Disqus -->
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'ben-nour';
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>
-    Please enable JavaScript to view comments.
-</noscript>
-<!-- End Disqus -->
 </article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
+            var disqus_config = function () {
+                this.page.url = "https://ben-nour.com/using-spotifys-web-api-to-analyse-my-favourite-rock-playlist.html";
+                this.page.identifier = "using-spotifys-web-api-to-analyse-my-favourite-rock-playlist";
+                this.page.title = "Using Spotify's Web API to analyse my Favourite Rock playlist";
+            };
+            (function () {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://ben-nour.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+            powered by
+            Disqus.</a></noscript>
+</div>
+</div>
+</main>
 <footer>
-<p>©  </p>
-<p>
-Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
-</p></footer> </main>
-<script type="application/ld+json">
-{
-  "@context" : "http://schema.org",
-  "@type" : "Blog",
-  "name": " Ben Nour ",
-  "url" : "https://ben-nour.com",
-  "image": "",
-  "description": ""
-}
-</script>
+<h6>
+                Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a>
+                 •  Copyright ©  ‑  Ben Nour             </h6>
+</footer>
+</div>
 </body>
 </html>
