@@ -1,4 +1,4 @@
-Title: About Me
+Title: about me
 Category: About Me
 Description: An overview of Ben Nour's data analysis/developer experience and skills, as well as his contact details (email, Twitter) for those who want to reach out to him.
 

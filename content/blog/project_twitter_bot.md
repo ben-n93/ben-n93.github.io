@@ -23,7 +23,8 @@ As an avid reader I thought it would be cool to combine my love of literature an
 data to create a [Twitter bot](https://twitter.com/Gutenberg_SciFi) that 
 posts about sci-fi books :
 
-<img src="{static}/images/pg_twitter_bot.webp" alt="Screenshot of the Project Gutenberg Sci-Fi books Twitter account" width="500" height="311.87">
+
+![Title]({static}/images/pg_twitter_bot.webp)
 
 Specifically I wanted to recommend science fiction books that you could read 
 free of charge, something made possible thanks to 

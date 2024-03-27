@@ -1,26 +1,27 @@
 AUTHOR = "Ben Nour"
 SITENAME = "Ben Nour"
-SITEURL = 'https://ben-nour.com'
+SITEURL = "https://ben-nour.com"
 SITETITLE = "Ben Nour"
 
 PATH = "content"
-STATIC_PATHS = ["images", 'extra']
-EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},
-'extra/favicon.ico': {'path': 'favicon.ico'}
+STATIC_PATHS = ["images", "extra"]
+EXTRA_PATH_METADATA = {
+    "extra/CNAME": {"path": "CNAME"},
+    "extra/favicon.ico": {"path": "favicon.ico"},
 }
 
-PLUGINS = ['sitemap', 'seo']
+PLUGINS = ["sitemap", "seo"]
 
 TIMEZONE = "Australia/Sydney"
 
 DEFAULT_LANG = "en"
 
-#FAVICON = './content/images/ben_favicon.jpg'
+# FAVICON = './content/images/ben_favicon.jpg'
 
 # Articles
-#ARTICLE_PATHS = ['blog',]
-#ARTICLE_URL = 'blog/{slug}.html'
-#ARTICLE_SAVE_AS = 'blog/{slug}.html'
+# ARTICLE_PATHS = ['blog',]
+# ARTICLE_URL = 'blog/{slug}.html'
+# ARTICLE_SAVE_AS = 'blog/{slug}.html'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -32,8 +33,8 @@ AUTHOR_FEED_RSS = None
 # SEO
 SEO_REPORT = True  # SEO report is enabled by default
 SEO_ENHANCER = True  # SEO enhancer is disabled by default
-SEO_ENHANCER_OPEN_GRAPH = False # Subfeature of SEO enhancer
-SEO_ENHANCER_TWITTER_CARDS = False # Subfeature of SEO enhancer
+SEO_ENHANCER_OPEN_GRAPH = False  # Subfeature of SEO enhancer
+SEO_ENHANCER_TWITTER_CARDS = False  # Subfeature of SEO enhancer
 
 # Blogroll
 LINKS = (("blog", "https://ben-nour.com/category/blog.html"),)
@@ -46,7 +47,7 @@ SOCIAL = (
 )
 
 # Theme.
-THEME = "/Users/benjaminnour/opt/anaconda3/envs/pelcian/lib/python3.10/site-packages/pelican/themes/Flex"
+THEME = "/Users/benjaminnour/opt/anaconda3/envs/pelcian/lib/python3.10/site-packages/pelican/themes/Peli-Kiera"
 
 DEFAULT_PAGINATION = 10
 

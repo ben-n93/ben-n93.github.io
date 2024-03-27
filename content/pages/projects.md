@@ -1,4 +1,4 @@
-Title: Projects
+Title: projects
 Category: Projects
 Description: A showcase of Ben Nour's various data/technology/developer projects, which cover projects including a Twitter bot, API, tools and various data analysis pieces.
 
