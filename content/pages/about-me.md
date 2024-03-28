@@ -12,7 +12,7 @@ Description: An overview of Ben Nour's data analysis/developer experience and sk
   gtag('config', 'G-TFP90633KX');
 </script>
 
-![Cartoon of Ben Nour, the website's author.]({static}/images/BEN.jpg)
+![Cartoon of Ben Nour, the website's author.]({static}/images/BEN.jpg#float-left)
 
 Hi there!
 
