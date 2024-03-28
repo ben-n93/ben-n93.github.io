@@ -12,32 +12,12 @@ Description: An overview of Ben Nour's data analysis/developer experience and sk
   gtag('config', 'G-TFP90633KX');
 </script>
 
-![Cartoon of Ben Nour, the website's author.]({static}/images/BEN_v3.jpg)
+![Cartoon of Ben Nour, the website's author.]({static}/images/BEN.jpg)
 
 Hi there!
 
 I'm a data analyst based in Sydney, Australia.
 
-You can contact me at [hello@ben-nour.com](mailto:hello@ben-nour.com) or via [Twitter](https://twitter.com/benjamin_nour).
+You can contact me at [<span style="color:#00498F;">hello@ben-nour.com</span>](mailto:hello@ben-nour.com) or via [<span style="color:#00498F;">Twitter</span>](https://twitter.com/benjamin_nour).
 
-You can view some of my projects [here](https://ben-nour.com/pages/projects.html).
-
-
-##### Programming languages
-- Python
-- SQL
-- Visual Basic for Applications (VBA)
-- Bash
-
-##### Databases
-- Microsoft SQL Server
-- Snowflake
-- SQLite
-
-##### Data analysis/visualisation
-- Tableau
-- Kibana
-- Cognos BI
-- Adobe Analytics
-- Google Data Studio
-- Microsoft Excel
+You can view some of my projects [<span style="color:#00498F;">here</span>](https://ben-nour.com/pages/projects.html).
