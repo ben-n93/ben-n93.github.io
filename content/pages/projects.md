@@ -16,17 +16,14 @@ Here are some of the projects I've developed:
 
 #### APIs
 
-- [<span style="color:#00498F;">Archer API</span>](https://www.archerapi.com/) is a REST API based on the adult animated sitcom *Archer*. It provides data about *Archer*'s characters,
+- [<span style="color:#00498F;">Archer API</span>](https://www.archerapi.com/) is a REST API based on the adult animated sitcom Archer. It provides data about Archer's characters,
 episodes and quotes.
 
     - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
 
 #### Applications/tools
 
-- [<span style="color:#00498F;">VAST XML Parser</span>](https://github.com/ben-n93/VAST_XML_Parser) - an XML parser that extracts Creative and MediaFile element metadata from Video Ad Serving Template XML tags.
-
-- [<span style="color:#00498F;">file_retirement</span>](https://github.com/ben-n93/file_retirement) - A simple command-line tool for cleaning up old, duplicate files. Intended use is for automation via Crontab, Windows Task Scheduler, etc.
-
+- [<span style="color:#00498F;">geojson-shave</span>](https://github.com/ben-n93/geojson-shave) - A command-line tool that reduces the size of GeoJSON file by truncuating coordinate values to the specified decimal points and eliminating whitespace.
 
 #### Automation/bots
 
