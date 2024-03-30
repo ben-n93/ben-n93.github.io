@@ -22,7 +22,7 @@ Tags: geospatial data, Python, regex
 Giant GeoJSON files can be a nightmare, crashing your IDE,
 GIS software or browser (and potentially causing you to tear your hair out in frustration!).
 
-So I decided to create a command-line tool that reduces the size of GeoJSON files.
+I use GeoJSON files [quite often](https://ben-nour.com/where-are-australias-existingproposed-oil-and-gas-pipelines-located.html) so I decided to create a command-line tool that reduces the size of GeoJSON files.
 
 <br>
 
