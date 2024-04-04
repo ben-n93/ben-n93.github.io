@@ -23,8 +23,11 @@ As an avid reader I thought it would be cool to combine my love of literature an
 data to create a [Twitter bot](https://twitter.com/Gutenberg_SciFi) that 
 posts about sci-fi books :
 
-
-![Title]({static}/images/pg_twitter_bot.webp)
+<p align="center">
+    <a href="https://pypi.python.org">
+        <img src="https://ben-nour.com/images/pg_twitter_bot.webp" alt="GeoJSON-shave" style="width: 60%; height: auto"/>
+    </a>
+</p>
 
 Specifically I wanted to recommend science fiction books that you could read 
 free of charge, something made possible thanks to 

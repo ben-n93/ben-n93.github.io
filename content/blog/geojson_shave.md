@@ -79,7 +79,7 @@ $ geojson-shave roads.geojson -o ../data/output.geojson
 ## How I did it
 
 To fully understand how the command-line tool works you can read the [source code](https://github.com/ben-n93/geojson-shave/)
-but to truncuate coordinates I used a recursive function with regex:
+but to truncuate coordinates I used a recursive function:
 
 ```python
 def _create_coordinates(coordinates, precision):
@@ -89,7 +89,7 @@ def _create_coordinates(coordinates, precision):
         if isinstance(item, list):
             new_coordinates.append(_create_coordinates(item, precision))
         else:
-            item = re.search(rf"[\-]?[0-9]+\.[0-9]{{0,{precision}}}", str(item)).group()
+            item = round(item, precision)
             new_coordinates.append(float(item))
     return new_coordinates
 ```
@@ -126,4 +126,3 @@ For example, you can see the difference between a Point and Polygon objects' coo
      }
 ```
 
-I used regex to truncuate the longitude/latitude values because it's so effective and easy!
