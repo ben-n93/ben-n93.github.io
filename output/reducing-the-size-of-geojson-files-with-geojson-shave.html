@@ -126,7 +126,7 @@ eliminating unnecessary whitespace and (optionally) replacing the properties key
 </code></pre></div>
 <h2>How I did it</h2>
 <p>To fully understand how the command-line tool works you can read the <a href="https://github.com/ben-n93/geojson-shave/">source code</a>
-but to truncuate coordinates I used a recursive function with regex:</p>
+but to truncuate coordinates I used a recursive function:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_create_coordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">precision</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Create truncuated coordinates."""</span>
     <span class="n">new_coordinates</span> <span class="o">=</span> <span class="p">[]</span>
@@ -134,7 +134,7 @@ but to truncuate coordinates I used a recursive function with regex:</p>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">new_coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_create_coordinates</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">precision</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">item</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">rf</span><span class="s2">"[\-]?[0-9]+\.[0-9]</span><span class="se">{{</span><span class="s2">0,</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="se">}}</span><span class="s2">"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span><span class="o">.</span><span class="n">group</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
             <span class="n">new_coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">new_coordinates</span>
 </code></pre></div>
@@ -166,7 +166,6 @@ hierarchial data structures.</p>
 <span class="w">         </span><span class="p">]</span>
 <span class="w">     </span><span class="p">}</span>
 </code></pre></div>
-<p>I used regex to truncuate the longitude/latitude values because it's so effective and easy!</p>
 </article>
 <section class="post-nav">
 <div id="left-page">
