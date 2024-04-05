@@ -1,7 +1,7 @@
 Title: How I created a Twitter bot that posts about science fiction books
 Date: 2023-03-31
 Description: How I used Python/Github to create an automated Twitter bot to post about science fiction books from Project Gutenberg's collection of public domain works.
-Tags: twitter-bot, data-engineering
+Tags: twitter-bot, data-engineering, SQL
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
