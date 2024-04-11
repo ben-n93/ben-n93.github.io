@@ -101,19 +101,27 @@ In order to clean this data, I created a `clean_authors()` function that takes a
 def clean_authors(authors):
     """Clean the authors string into a more
     readable string."""
-    authors = [re.sub("[0-9]{4}-[0-9]{4}", "", author) for author in authors.split(";")]
+
+    PATTERN = "\[(Illustrator|Editor|Translator|Contributor)\]"
+
+    # Remove years from authors' names and split.
+    authors = [re.sub(" [0-9]{4}-[0-9]{4}", "", author) for author in authors.split(";")]
+    # Clean each individual authors' name.
     cleaned_authors = []
     for author in authors:
-        author = author.split(",")
-        stripped_authors = [creator.strip() for creator in author if creator != (" ")]
-        if "[Illustrator]" in stripped_authors:
-            del stripped_authors[stripped_authors.index("[Illustrator]")]
-            stripped_authors.reverse()
-            stripped_authors.append("[Illustrator]")
+        if (match := re.search(PATTERN, author)) is not None:
+            new_author = re.sub(PATTERN, "", author)
+            new_author = [word.strip() for word in new_author.split(",") if word != " "]
+            new_author.reverse()
+            new_author.append(match.group())
+            new_author = " ".join(new_author)
+            cleaned_authors.append(new_author)
         else:
-            stripped_authors.reverse()
-        stripped_authors = " ".join(stripped_authors)
-        cleaned_authors.append(stripped_authors)
+            new_author = [word.strip() for word in author.split(",") if word != " "]
+            new_author.reverse()
+            new_author = " ".join(new_author)
+            cleaned_authors.append(new_author)
+    # Create final string of authors' names.
     cleaned_authors = " and ".join(cleaned_authors)
     return cleaned_authors
 ```
