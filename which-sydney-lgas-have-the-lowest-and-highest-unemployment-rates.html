@@ -91,12 +91,13 @@
 
   gtag('config', 'G-TFP90633KX');
 </script>
+<p align="center">
+<a href="https://pypi.python.org">
+<img alt="GeoJSON-shave-demo" src="https://ben-nour.com/images/lga_map.png" style="width: 60%; height: auto"/>
+</a>
+</p>
 <p>The Australian government's <a href="https://www.jobsandskills.gov.au/engage/about">Jobs and Skills Australia</a> has an insightful <a href="https://www.jobsandskills.gov.au/data/small-area-labour-markets">dataset</a> I recently came across - quarterly Small Area Labour Markets (SALM) estimates of unemployment and the unemployment rate, broken out by local government area (LGA).</p>
-<p>Here it is visualised:</p>
-<div class="iframe-container">
-<iframe height="500" src="https://ben-nour.com/sydney_unemployment.html" width="750"></iframe>
-</div>
-<p>You can interact with the hosted map <a href="https://ben-nour.com/sydney_unemployment.html">here</a>.</p>
+<p>You can see with the interactive map <a href="https://ben-nour.com/sydney_unemployment.html">here</a> or at the end of this article.</p>
 <h2>How I did it</h2>
 <p>I sourced a <a href="https://citydata.be.unsw.edu.au/dataset/lgas_sydney_and_surrounds/resource/75080649-cd92-4923-bf71-63c81e5c57ba">GeoJSON file</a> of Greater Sydney LGAs from UNSW's <a href="https://citydata.be.unsw.edu.au/">CityData</a> platform.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">folium</span>
