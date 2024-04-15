@@ -13,15 +13,16 @@ Tags: data-analysis, data-visualisation, Python, pandas, geospatial-data
   gtag('config', 'G-TFP90633KX');
 </script>
 
+<p align="center">
+    <a href="https://pypi.python.org">
+        <img src="https://ben-nour.com/images/lga_map.png" alt="GeoJSON-shave-demo" style="width: 60%; height: auto"/>
+    </a>
+</p>
+
+
 The Australian government's [Jobs and Skills Australia](https://www.jobsandskills.gov.au/engage/about) has an insightful [dataset](https://www.jobsandskills.gov.au/data/small-area-labour-markets) I recently came across - quarterly Small Area Labour Markets (SALM) estimates of unemployment and the unemployment rate, broken out by local government area (LGA).
 
-Here it is visualised:
-
-<div class="iframe-container">
-<iframe src="https://ben-nour.com/sydney_unemployment.html" height="500" width="750"></iframe>
-</div>
-
-You can interact with the hosted map [here](https://ben-nour.com/sydney_unemployment.html).
+You can see with the interactive map [here](https://ben-nour.com/sydney_unemployment.html) or at the end of this article.
 
 ## How I did it
 
@@ -288,10 +289,6 @@ choropleth.geojson.add_child(tooltip)
 m.save('sydney_unemployment.html')
 m
 ```
-
-
-
-
 <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
