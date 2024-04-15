@@ -14,11 +14,10 @@ Tags: data-analysis, data-visualisation, Python, pandas, geospatial-data
 </script>
 
 <p align="center">
-    <a href="https://pypi.python.org">
-        <img src="https://ben-nour.com/images/lga_map.png" alt="GeoJSON-shave-demo" style="width: 60%; height: auto"/>
+    <a href="https://ben-nour.com/images/lga_map.png">
+        <img src="https://ben-nour.com/images/lga_map.png" alt="Unemployment by LGA in Sydney, Australia" style="width: 80%; height: auto"/>
     </a>
 </p>
-
 
 The Australian government's [Jobs and Skills Australia](https://www.jobsandskills.gov.au/engage/about) has an insightful [dataset](https://www.jobsandskills.gov.au/data/small-area-labour-markets) I recently came across - quarterly Small Area Labour Markets (SALM) estimates of unemployment and the unemployment rate, broken out by local government area (LGA).
 

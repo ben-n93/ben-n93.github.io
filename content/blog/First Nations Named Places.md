@@ -89,8 +89,8 @@ While I couldn't use Folium to show the vast number of named places that are not
 First Nations origin you can see it in this column chart:
 
 <p align="center">
-    <a href="https://pypi.python.org">
-        <img src="https://ben-nour.com/images/nsw_geographical_places.webp" alt="GeoJSON-shave" style="width: 80%; height: auto"/>
+    <a href="https://ben-nour.com/images/nsw_geographical_places.webp">
+        <img src="https://ben-nour.com/images/nsw_geographical_places.webp" alt="Bar chart of First Nations named places vs non First Nations named places in NSW, Australia" style="width: 80%; height: auto"/>
     </a>
 </p>
 
