@@ -25,7 +25,7 @@ The data might look something like this:
     </a>
 </p>
 
-However we want each language to be on its own row:
+However we want each unique language to be on its own row:
 
 <p align="center">
     <a href="">
@@ -37,7 +37,7 @@ You can do this in Snowlake by taking advantage of the `SPLIT_TO_TABLE` function
 
 ## SPLIT_TO_TABLE
 
-Snowflake offers the handy `SPLIT_TO_TABLE` function, which **“splits a string (based on a specified delimiter) and flattens the results into rows.”**
+Snowflake offers the handy `SPLIT_TO_TABLE` function, which *“splits a string (based on a specified delimiter) and flattens the results into rows.”*
 
 Here’s an example of it in use:
 
@@ -52,7 +52,7 @@ Output:
 +-------+
 ```
 
-However, as the Snowflake documentation points out, **“table functions are used in the FROM clause of a SQL statement”.**
+However, as the Snowflake documentation points out, *“table functions are used in the FROM clause of a SQL statement”.*
 
 We need to execute the `SPLIT_TO_TABLE` for each row in our `countries_official_languages` table. Plus, we need the country column included also so we know which languages belong to which countries.
 
@@ -60,7 +60,7 @@ How do we do this? Using a `LATERAL` join.
 
 ### LATERAL JOIN
 
-A lateral join is different from a regular join like `INNER JOIN` OR `LEFT JOIN` in that it **“allows an inline view to reference columns from a table expression that precedes that inline view.”**
+A lateral join is different from a regular join like `INNER JOIN` OR `LEFT JOIN` in that it *“allows an inline view to reference columns from a table expression that precedes that inline view.”*
 
 That inline view can be a subquery, table function or an inline view (a view defined within the statement, and valid only for the duration of the statement).
 
