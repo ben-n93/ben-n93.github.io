@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Applying colour conditional formatting to individual table columns in Tableau</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="How to apply colour conditional formatting to individual table columns in Tableau." name="description">
+<meta content="Tableau" name="tags">
+<meta content="data-visualisation" name="tags"/>
+</meta></meta><link href="https://ben-nour.com/blog/applying-colour-conditional-formatting-to-individual-table-columns-in-tableau.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ben-nour.com/blog"}, {"@type": "ListItem", "position": 3, "name": "Applying colour conditional formatting to individual table columns in tableau", "item": "https://ben-nour.com/blog/applying-colour-conditional-formatting-to-individual-table-columns-in-tableau.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Applying colour conditional formatting to individual table columns in Tableau", "about": "blog", "datePublished": "2023-02-20 00:00"}</script></head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
+<nav>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
+</ul>
+</nav>
+<main>
+<article>
+<h1>Applying colour conditional formatting to individual table columns in Tableau</h1>
+<aside>
+<ul>
+<li>
+<time datetime="2023-02-20 00:00:00+11:00">Feb 20, 2023</time>
+</li>
+<li>
+                    Categories:
+                    <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
+</li>
+<li>
+                    Tags:
+                    <a href="https://ben-nour.com/tag/tableau.html"><em>#Tableau</em></a>
+<a href="https://ben-nour.com/tag/data-visualisation.html"><em>#data-visualisation</em></a>
+</li>
+</ul>
+</aside>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+<p>Do you want to conditionally format one column in a Tableau table but attempting to apply colour to a column applies it to everything?</p>
+<p>For example, say I have the following table:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau_table.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>I want to conditionally format the Variance column so that at a glance I can see, based on the colour of the numbers in that column, whether a profit was made that year or not.</p>
+<p>Unfortunately dropping the Variance measure on Colour applies it to all columns/rows:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-2.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<h3>The solution</h3>
+<p>1) Drop Measure Values on to Colour:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-3.gif" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>2) Right click the Measure Values colour and click ‘Use separate legends’:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-4.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>What this does is create a separate colour legend/scale for each column, which you can see on the right side of your screen:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-5.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>3) This is where the magic happens. You’ll want to edit all 3 (or however many columns you have) one at a time, by right clicking and selecting Edit Colours:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-6.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>Essentially what we want to do now is ensure that the colour palette that we’re editing only display the same colour (for our columns that we don’t want to conditionally format).</p>
+<p>To do so click the drop-down menu that currently says ‘Automatic’ and select ‘Custom Diverging’, reduce the Stepped Colour to 2 and then make sure both ends of the scale are the same colour:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-7.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>This will ensure that no matter the value of the column it will be the same colour:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-8.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>Once you’ve finished updating all the columns you don’t want conditionally formatted, you can focus on the remaining column/s that you do want colour conditional formatting applied to.</p>
+<p>It’s the exact same process except you’ll want to choose two different colours for the different ends of the scale.</p>
+<p>In this example, let’s use red for any Variance values under 0 and green for any values over 0:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-9.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>You’ll notice that I’ve specified the centre of the scale is 0, meaning any value in the Variance column that is 0 or higher will be coloured green and any value that is less than 0 will be red.</p>
+<p>Let’s see how our table looks now:</p>
+<p align="center">
+<a href="">
+<img alt="Tableau table" src="https://ben-nour.com/images/tableau-10.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>Perfect!</p>
+<p>Rather than two colours only you can use a scale — just increase the stepped colours and choose your own colours/choose a different palette.</p>
+</article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
+            var disqus_config = function () {
+                this.page.url = "https://ben-nour.com/blog/applying-colour-conditional-formatting-to-individual-table-columns-in-tableau.html";
+                this.page.identifier = "applying-colour-conditional-formatting-to-individual-table-columns-in-tableau";
+                this.page.title = "Applying colour conditional formatting to individual table columns in Tableau";
+            };
+            (function () {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://ben-nour.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+            powered by
+            Disqus.</a></noscript>
+</div>
+</div>
+</main>
+<footer>
+<h6>
+            Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
+             •  Copyright ©  ‑  Ben Nour         </h6>
+</footer>
+</div>
+</body>
+</html>

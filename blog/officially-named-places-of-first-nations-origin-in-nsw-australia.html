@@ -1,20 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Ben Nour - Officially named places of First Nations origin in NSW, Australia</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
-        <link rel="stylesheet" type="text/css" href="https://ben-nour.com/theme/css/main.css"/>
-
-<meta name="description" content="How I used Python to transform JSON data create an interactive, choropleth map that shows places in NSW, Australia that have a name of First Nations origin." />
-<meta name="tags" content="data-visualisation" />
-<meta name="tags" content="geospatial-data" />
-<meta name="tags" content="Python" />
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Officially named places of First Nations origin in NSW, Australia</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="How I used Python to transform JSON data create an interactive, choropleth map that shows places in NSW, Australia that have a name of First Nations origin." name="description">
+<meta content="data-visualisation" name="tags">
+<meta content="geospatial-data" name="tags"/>
+<meta content="Python" name="tags"/>
+</meta></meta><link href="https://ben-nour.com/blog/officially-named-places-of-first-nations-origin-in-nsw-australia.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ben-nour.com/blog"}, {"@type": "ListItem", "position": 3, "name": "Officially named places of first nations origin in nsw australia", "item": "https://ben-nour.com/blog/officially-named-places-of-first-nations-origin-in-nsw-australia.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Officially named places of First Nations origin in NSW, Australia", "about": "blog", "datePublished": "2023-08-01 00:00"}</script></head>
 <body>
 <style>.github-corner:hover .octo-arm {
     animation: octocat-wave 560ms ease-in-out
@@ -39,44 +39,43 @@
         animation: octocat-wave 560ms ease-in-out
     }
 }</style><div id="container">
-    <header>
-        <h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
-            <ul class="social-media">
-                    <li><a href="https://github.com/ben-n93"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a></li>
-                    <li><a href="https://twitter.com/benjamin_nour"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-            </ul>
-        <p><em></em></p>
-    </header>
-    <nav>
-        <ul>
-                    <li><a  class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
-                    <li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
-                    <li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
-        </ul>
-    </nav>
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
+<nav>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
+</ul>
+</nav>
 <main>
-    <article>
-        <h1>Officially named places of First Nations origin in NSW, Australia</h1>
-        
-        <aside>
-            <ul>
-                <li>
-                    <time datetime="2023-08-01 00:00:00+10:00">Aug 01, 2023</time>
-                </li>
-                <li>
+<article>
+<h1>Officially named places of First Nations origin in NSW, Australia</h1>
+<aside>
+<ul>
+<li>
+<time datetime="2023-08-01 00:00:00+10:00">Aug 01, 2023</time>
+</li>
+<li>
                     Categories:
                     <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
-                </li>
-                <li>
+</li>
+<li>
                     Tags:
                     <a href="https://ben-nour.com/tag/data-visualisation.html"><em>#data-visualisation</em></a>
-                    <a href="https://ben-nour.com/tag/geospatial-data.html"><em>#geospatial-data</em></a>
-                    <a href="https://ben-nour.com/tag/python.html"><em>#Python</em></a>
-                </li>
-            </ul>
-        </aside>
-        <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<a href="https://ben-nour.com/tag/geospatial-data.html"><em>#geospatial-data</em></a>
+<a href="https://ben-nour.com/tag/python.html"><em>#Python</em></a>
+</li>
+</ul>
+</aside>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -84,7 +83,6 @@
 
   gtag('config', 'G-TFP90633KX');
 </script>
-
 <style>
     /* CSS code. */
     .iframe-container {
@@ -102,7 +100,6 @@
         height: 100%;
     }
 </style>
-
 <p>Recently I was curious about the origin of my street name and my search online
 led me to the <a href="https://www.gnb.nsw.gov.au/">NSW Geographical Names Board</a>,
 a government body responsible for the management and administration of
@@ -125,7 +122,7 @@ file in this <a href="https://github.com/ben-n93/NSW_Geographical_Name_Register_
 I contacted the Board and they told me that the ABORIGINAL NAME field was <em>"...a recent edition to the Geographical Names Register (it was only added 2 years ago)."</em>. </p>
 <p>So what I've done is also included any places that, according to the MEANING or ORIGIN field, are of First Nations origin. </p>
 <p>Again, I can't speak to the accuracy of these fields - you can see my doubt when presented with descriptions like this:</p>
-<p><img src="https://ben-nour.com/images/tilcha_creek.webp" alt="Screenshot of metadata about a geographical location (Tilcha Creek) with NSW, Australia that is of First Nations origin."></p>
+<p><img alt="Screenshot of metadata about a geographical location (Tilcha Creek) with NSW, Australia that is of First Nations origin." src="https://ben-nour.com/images/tilcha_creek.webp"/></p>
 <p>However I've included these places anyway.</p>
 <p>I've also only included places that have been officially 'assigned' by the Board.</p>
 <p>You can read more about the different place designations <a href="https://www.gnb.nsw.gov.au/__data/assets/pdf_file/0011/59627/Glossary_of_Designation_Values.pdf">here</a>.</p>
@@ -135,37 +132,35 @@ that it crashed my browser. I want to note that this is because of the large num
 of places that are <em>not</em> of First Nations origin.</p>
 <p>Creating a Folium map with places of First Nations origin was of no issue, size-wise:</p>
 <div class="iframe-container">
-<iframe src="https://ben-nour.com/NSW_geographical_places.html" height="500" width="750"></iframe>
+<iframe height="500" src="https://ben-nour.com/NSW_geographical_places.html" width="750"></iframe>
 </div>
-
 <p>While I couldn't use Folium to show the vast number of named places that are not of
 First Nations origin you can see it in this column chart:</p>
 <p align="center">
-    <a href="https://ben-nour.com/images/nsw_geographical_places.webp">
-        <img src="https://ben-nour.com/images/nsw_geographical_places.webp" alt="Bar chart of First Nations named places vs non First Nations named places in NSW, Australia" style="width: 80%; height: auto"/>
-    </a>
+<a href="https://ben-nour.com/images/nsw_geographical_places.webp">
+<img alt="Bar chart of First Nations named places vs non First Nations named places in NSW, Australia" src="https://ben-nour.com/images/nsw_geographical_places.webp" style="width: 80%; height: auto">
+</img></a>
 </p>
-
 <p>If you want to see the Jupyter Notebook I used for this you can check it out
 in this Github <a href="https://github.com/ben-n93/First_Nations_places_NSW">repo</a>.</p>
-    </article>
-    <section class="post-nav">
-        <div id="left-page">
-            <div id="left-link">
-            </div>
-        </div>
-        <div id="right-page">
-            <div id="right-link">
-            </div>
-        </div>
-    </section>
-    <div>
-    <div class="comments">
-        <h2>Comments !</h2>
-        <div id="disqus_thread"></div>
-        <script>
+</article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
             var disqus_config = function () {
-                this.page.url = "https://ben-nour.com/officially-named-places-of-first-nations-origin-in-nsw-australia.html";
+                this.page.url = "https://ben-nour.com/blog/officially-named-places-of-first-nations-origin-in-nsw-australia.html";
                 this.page.identifier = "officially-named-places-of-first-nations-origin-in-nsw-australia";
                 this.page.title = "Officially named places of First Nations origin in NSW, Australia";
             };
@@ -177,17 +172,17 @@ in this Github <a href="https://github.com/ben-n93/First_Nations_places_NSW">rep
                 (d.head || d.body).appendChild(s);
             })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
             powered by
             Disqus.</a></noscript>
-    </div>
-    </div>
+</div>
+</div>
 </main>
-    <footer>
-        <h6>
-            Rendered by <a href="http://getpelican.com/">Pelican</a> &nbsp;&bull;&nbsp; Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
-            &nbsp;&bull;&nbsp; Copyright &copy &nbsp;&#8209;&nbsp; Ben Nour         </h6>
-    </footer>
+<footer>
+<h6>
+            Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
+             •  Copyright ©  ‑  Ben Nour         </h6>
+</footer>
 </div>
 </body>
 </html>
