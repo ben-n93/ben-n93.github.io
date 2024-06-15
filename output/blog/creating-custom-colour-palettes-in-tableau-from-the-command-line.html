@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Creating custom colour palettes in Tableau from the command-line</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="A command-line app to make it easier and quicker to add and edit custom colour palettes in Tableau." name="description">
+<meta content="Python" name="tags">
+<meta content="Tableau" name="tags"/>
+<meta content="data-visualisation" name="tags"/>
+<meta content="command-line" name="tags"/>
+</meta></meta><link href="https://ben-nour.com/blog/creating-custom-colour-palettes-in-tableau-from-the-command-line.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ben-nour.com/blog"}, {"@type": "ListItem", "position": 3, "name": "Creating custom colour palettes in tableau from the command line", "item": "https://ben-nour.com/blog/creating-custom-colour-palettes-in-tableau-from-the-command-line.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Creating custom colour palettes in Tableau from the command-line", "about": "blog", "datePublished": "2024-04-30 00:00"}</script></head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
+<nav>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
+</ul>
+</nav>
+<main>
+<article>
+<h1>Creating custom colour palettes in Tableau from the command-line</h1>
+<aside>
+<ul>
+<li>
+<time datetime="2024-04-30 00:00:00+10:00">Apr 30, 2024</time>
+</li>
+<li>
+                    Categories:
+                    <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
+</li>
+<li>
+                    Tags:
+                    <a href="https://ben-nour.com/tag/python.html"><em>#Python</em></a>
+<a href="https://ben-nour.com/tag/tableau.html"><em>#Tableau</em></a>
+<a href="https://ben-nour.com/tag/data-visualisation.html"><em>#data-visualisation</em></a>
+<a href="https://ben-nour.com/tag/command-line.html"><em>#command-line</em></a>
+</li>
+</ul>
+</aside>
+<p>While I like Tableau's in-built colour palettes I also like to create my own 
+custom colour palettes.</p>
+<p>Unfortunately in order to create custom colour palettes in Tableau you have 
+to find your <code>Preferences.tsp</code> file and then edit the XML:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version='1.0' encoding='utf-8'?&gt;</span>
+<span class="nt">&lt;workbook&gt;</span>
+
+<span class="nt">&lt;preferences&gt;</span>
+
+<span class="nt">&lt;color-palette</span><span class="w"> </span><span class="na">name=</span><span class="s">"Forest"</span><span class="w"> </span><span class="na">type=</span><span class="s">"ordered-sequential"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;color&gt;</span>#132a13<span class="nt">&lt;/color&gt;</span>
+<span class="nt">&lt;color&gt;</span>#4f772d<span class="nt">&lt;/color&gt;</span>
+<span class="nt">&lt;color&gt;</span>#90a955<span class="nt">&lt;/color&gt;</span>
+<span class="nt">&lt;/color-palette&gt;&lt;/preferences&gt;</span>
+<span class="nt">&lt;/workbook&gt;</span>
+</code></pre></div>
+<p>While this might be fine as a one-off, it gets unyieldy if you're constantly 
+having to edit the XML to add or remove colours/palettes.</p>
+<p>So I decided to create a command-line app to make it easier and quicker
+to manage your custom colour palettes in Tableau.</p>
+<p>Introducing <code>tab-pal</code>:</p>
+<p align="center">
+<a href="https://github.com/ben-n93/tab-pal">
+<img alt="tab-pal-demo" src="https://github.com/ben-n93/tab-pal/assets/84557025/d26de9c5-434e-4299-a35d-e97cb46ae57d"/>
+</a>
+</p>
+<p><code>tab-pal</code> will automatically search for your Preferences.tsp file and prompt you for the path to it.</p>
+<p>Alternatively, and what is recommended, is to create an enviromental variable called <code>TAB_PAL_FILE</code>, which <code>tab-pal</code> will search for on launch. This will ensure you don't need to keep supplying the file path every time you launch <code>tab-pal</code>.</p>
+<p>You can install via <code>pip</code> (although I recommend <code>pipx</code> so you use it regardless of which virtual environment is or isn't activated).</p>
+<p>Here is the <a href="https://github.com/ben-n93/tab-pal">Github repository</a>.</p>
+</article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
+            var disqus_config = function () {
+                this.page.url = "https://ben-nour.com/blog/creating-custom-colour-palettes-in-tableau-from-the-command-line.html";
+                this.page.identifier = "creating-custom-colour-palettes-in-tableau-from-the-command-line";
+                this.page.title = "Creating custom colour palettes in Tableau from the command-line";
+            };
+            (function () {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://ben-nour.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+            powered by
+            Disqus.</a></noscript>
+</div>
+</div>
+</main>
+<footer>
+<h6>
+            Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
+             •  Copyright ©  ‑  Ben Nour         </h6>
+</footer>
+</div>
+</body>
+</html>

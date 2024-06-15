@@ -41,8 +41,3 @@ create custom colour palettes in Tableau.
     - [<span style="color:#00498F;">Which Sydney LGAs have the lowest and highest unemployment rates</span>](https://ben-nour.com/which-sydney-lgas-have-the-lowest-and-highest-unemployment-rates.html)
     - [<span style="color:#00498F;">Using Spotify's API to analyse my Favourite Rock playlist</span>](https://ben-nour.com/using-spotifys-api-to-analyse-my-favourite-rock-playlist.html)
     - [<span style="color:#00498F;">Where are Australia's oil and gas pipelines located?</span>](https://ben-nour.com/where-are-australias-oil-and-gas-pipelines-located.html)
-
-#### Misc
-
-- [<span style="color:#00498F;">Medium blog</span>](https://medium.com/@ben.nour_68691) - On Medium I write about all things data, from [applying colour conditional formatting in Tableau](https://medium.com/@ben.nour_68691/applying-colour-conditional-formatting-to-individual-table-columns-in-tableau-23e6e82d8251) to 
-[splitting delimited strings in Snowflake](https://medium.com/@ben.nour_68691/splitting-a-delimited-string-column-into-rows-using-snowflake-84930d257910).
