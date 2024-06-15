@@ -89,7 +89,7 @@
 <img alt="A table in Snowflake data warehouse." src="https://ben-nour.com/images/snowflake-1.webp" style="width: 60%; height: auto"/>
 </a>
 </p>
-<p>However we want each language to be on its own row:</p>
+<p>However we want each unique language to be on its own row:</p>
 <p align="center">
 <a href="">
 <img alt="A table in Snowflake data warehouse." src="https://ben-nour.com/images/snowflake-2.webp" style="width: 60%; height: auto"/>
@@ -97,7 +97,7 @@
 </p>
 <p>You can do this in Snowlake by taking advantage of the <code>SPLIT_TO_TABLE</code> function and <code>LATERAL</code> keyword.</p>
 <h2>SPLIT_TO_TABLE</h2>
-<p>Snowflake offers the handy <code>SPLIT_TO_TABLE</code> function, which <strong>“splits a string (based on a specified delimiter) and flattens the results into rows.”</strong></p>
+<p>Snowflake offers the handy <code>SPLIT_TO_TABLE</code> function, which <em>“splits a string (based on a specified delimiter) and flattens the results into rows.”</em></p>
 <p>Here’s an example of it in use:</p>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code>+-------+
@@ -107,11 +107,11 @@
 | Berber|
 +-------+
 </code></pre></div>
-<p>However, as the Snowflake documentation points out, <strong>“table functions are used in the FROM clause of a SQL statement”.</strong></p>
+<p>However, as the Snowflake documentation points out, <em>“table functions are used in the FROM clause of a SQL statement”.</em></p>
 <p>We need to execute the <code>SPLIT_TO_TABLE</code> for each row in our <code>countries_official_languages</code> table. Plus, we need the country column included also so we know which languages belong to which countries.</p>
 <p>How do we do this? Using a <code>LATERAL</code> join.</p>
 <h3>LATERAL JOIN</h3>
-<p>A lateral join is different from a regular join like <code>INNER JOIN</code> OR <code>LEFT JOIN</code> in that it <strong>“allows an inline view to reference columns from a table expression that precedes that inline view.”</strong></p>
+<p>A lateral join is different from a regular join like <code>INNER JOIN</code> OR <code>LEFT JOIN</code> in that it <em>“allows an inline view to reference columns from a table expression that precedes that inline view.”</em></p>
 <p>That inline view can be a subquery, table function or an inline view (a view defined within the statement, and valid only for the duration of the statement).</p>
 <p>If you're confused what’s important to understand is what happens when you use <code>LATERAL</code>:</p>
 <div class="highlight"><pre><span></span><code>for each row in left_hand_table LHT:
