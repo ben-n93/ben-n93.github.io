@@ -99,6 +99,9 @@
 <h2>SPLIT_TO_TABLE</h2>
 <p>Snowflake offers the handy <code>SPLIT_TO_TABLE</code> function, which <em>“splits a string (based on a specified delimiter) and flattens the results into rows.”</em></p>
 <p>Here’s an example of it in use:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">example</span><span class="p">.</span><span class="n">value</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">TABLE</span><span class="p">(</span><span class="n">SPLIT_TO_TABLE</span><span class="p">(</span><span class="s1">'Arabic,Berber'</span><span class="p">,</span><span class="w"> </span><span class="s1">','</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">example</span>
+</code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code>+-------+
 | VALUE |

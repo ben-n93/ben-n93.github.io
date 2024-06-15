@@ -41,6 +41,11 @@ Snowflake offers the handy `SPLIT_TO_TABLE` function, which *“splits a string 
 
 Here’s an example of it in use:
 
+```SQL
+SELECT example.value 
+FROM TABLE(SPLIT_TO_TABLE('Arabic,Berber', ',')) AS example
+```
+
 Output:
 
 ```
