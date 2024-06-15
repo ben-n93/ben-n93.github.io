@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Splitting a delimited string column into rows using Snowflake</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="Using a SQL LATERAL JOIN in Snowflake to split a delimited string column into rows." name="description">
+<meta content="SQL" name="tags">
+<meta content="Snowflake" name="tags"/>
+</meta></meta><link href="https://ben-nour.com/blog/splitting-a-delimited-string-column-into-rows-using-snowflake.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ben-nour.com/blog"}, {"@type": "ListItem", "position": 3, "name": "Splitting a delimited string column into rows using snowflake", "item": "https://ben-nour.com/blog/splitting-a-delimited-string-column-into-rows-using-snowflake.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Splitting a delimited string column into rows using Snowflake", "about": "blog", "datePublished": "2023-07-20 00:00"}</script></head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
+<nav>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
+</ul>
+</nav>
+<main>
+<article>
+<h1>Splitting a delimited string column into rows using Snowflake</h1>
+<aside>
+<ul>
+<li>
+<time datetime="2023-07-20 00:00:00+10:00">Jul 20, 2023</time>
+</li>
+<li>
+                    Categories:
+                    <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
+</li>
+<li>
+                    Tags:
+                    <a href="https://ben-nour.com/tag/sql.html"><em>#SQL</em></a>
+<a href="https://ben-nour.com/tag/snowflake.html"><em>#Snowflake</em></a>
+</li>
+</ul>
+</aside>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+<p>Do you have a column in your Snowflake table that contains delimited strings that you want to split into individual rows?</p>
+<p>For example, let’s say we have a table called <code>countries_official_languages</code>, which has two columns: <code>country</code> and <code>official_languages</code>.</p>
+<p>The data might look something like this:</p>
+<p align="center">
+<a href="">
+<img alt="A table in Snowflake data warehouse." src="https://ben-nour.com/images/snowflake-1.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>However we want each language to be on its own row:</p>
+<p align="center">
+<a href="">
+<img alt="A table in Snowflake data warehouse." src="https://ben-nour.com/images/snowflake-2.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>You can do this in Snowlake by taking advantage of the <code>SPLIT_TO_TABLE</code> function and <code>LATERAL</code> keyword.</p>
+<h2>SPLIT_TO_TABLE</h2>
+<p>Snowflake offers the handy <code>SPLIT_TO_TABLE</code> function, which <strong>“splits a string (based on a specified delimiter) and flattens the results into rows.”</strong></p>
+<p>Here’s an example of it in use:</p>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>+-------+
+| VALUE |
+|-------|
+| Arabic|
+| Berber|
++-------+
+</code></pre></div>
+<p>However, as the Snowflake documentation points out, <strong>“table functions are used in the FROM clause of a SQL statement”.</strong></p>
+<p>We need to execute the <code>SPLIT_TO_TABLE</code> for each row in our <code>countries_official_languages</code> table. Plus, we need the country column included also so we know which languages belong to which countries.</p>
+<p>How do we do this? Using a <code>LATERAL</code> join.</p>
+<h3>LATERAL JOIN</h3>
+<p>A lateral join is different from a regular join like <code>INNER JOIN</code> OR <code>LEFT JOIN</code> in that it <strong>“allows an inline view to reference columns from a table expression that precedes that inline view.”</strong></p>
+<p>That inline view can be a subquery, table function or an inline view (a view defined within the statement, and valid only for the duration of the statement).</p>
+<p>If you're confused what’s important to understand is what happens when you use <code>LATERAL</code>:</p>
+<div class="highlight"><pre><span></span><code>for each row in left_hand_table LHT:
+    execute right_hand_subquery RHS using the values from 
+                                    the current row in the LHT
+</code></pre></div>
+<p>As you might have guessed, we can take advantage of the <code>LATERAL</code> keyword in order to execute the <code>SPLIT_TO_TABLE</code> function for each row in our <code>countries_official_languages</code> table:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="k">TRIM</span><span class="p">(</span><span class="n">VALUE</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">language</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">countries_official_languages</span><span class="p">,</span><span class="w"> </span><span class="c1">-- Don't forgot the comma!</span>
+<span class="k">LATERAL</span><span class="w"> </span><span class="n">SPLIT_TO_TABLE</span><span class="p">(</span><span class="n">official_languages</span><span class="p">,</span><span class="w"> </span><span class="s1">','</span><span class="p">)</span>
+</code></pre></div>
+<p>Let’s examine this in more detail. Let’s take the first row in our table as an example of what happens when we execute the above query:</p>
+<div class="highlight"><pre><span></span><code>|country|official_languages|
+|-------|------------------|
+|Algeria|Arabic, Berber    |
+</code></pre></div>
+<p>1) This row is passed to the right-hand inline view, which is in this case is a table function — <code>SPLIT_TO_TABLE</code>.</p>
+<p>2) The table function returns two rows, for Arabic and Berber, in a column called <code>VALUE</code>.</p>
+<p>3) In our <code>SELECT</code> statement we select the country column and the <code>VALUE</code> column. I’ve wrapped the <code>TRIM</code> function around the <code>VALUE</code> column to remove any whitespace.</p>
+<p>4) This final result set is appended to what will be the final output once every row from the table has been processed.</p>
+<p>And here is our final output:</p>
+<p align="center">
+<a href="">
+<img alt="A table in Snowflake data warehouse." src="https://ben-nour.com/images/snowflake-2.webp" style="width: 60%; height: auto"/>
+</a>
+</p>
+<p>And that's it!</p>
+</article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
+            var disqus_config = function () {
+                this.page.url = "https://ben-nour.com/blog/splitting-a-delimited-string-column-into-rows-using-snowflake.html";
+                this.page.identifier = "splitting-a-delimited-string-column-into-rows-using-snowflake";
+                this.page.title = "Splitting a delimited string column into rows using Snowflake";
+            };
+            (function () {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://ben-nour.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+            powered by
+            Disqus.</a></noscript>
+</div>
+</div>
+</main>
+<footer>
+<h6>
+            Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
+             •  Copyright ©  ‑  Ben Nour         </h6>
+</footer>
+</div>
+</body>
+</html>

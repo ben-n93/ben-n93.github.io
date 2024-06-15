@@ -29,7 +29,7 @@ Unfortunately dropping the Variance measure on Colour applies it to all columns/
 
 <p align="center">
     <a href="">
-        <img src="https://ben-nour.com/images/tableau-2.webp" alt="Tableau table" style="width: 60%; height: auto"/>
+        <img src="https://ben-nour.com/images/tableau-2.webp" alt="Tableau table" style="width: 120%; height: auto"/>
     </a>
 </p>
 
@@ -54,7 +54,7 @@ What this does is create a separate colour legend/scale for each column, which y
 
 <p align="center">
     <a href="">
-        <img src="https://ben-nour.com/images/tableau-5.webp" alt="Tableau table" style="width: 60%; height: auto"/>
+        <img src="https://ben-nour.com/images/tableau-5.webp" alt="Tableau table" style="width: 40%; height: auto"/>
     </a>
 </p>
 
@@ -63,7 +63,7 @@ What this does is create a separate colour legend/scale for each column, which y
 
 <p align="center">
     <a href="">
-        <img src="https://ben-nour.com/images/tableau-6.webp" alt="Tableau table" style="width: 60%; height: auto"/>
+        <img src="https://ben-nour.com/images/tableau-6.webp" alt="Tableau table" style="width: 40%; height: auto"/>
     </a>
 </p>
 
