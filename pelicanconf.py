@@ -10,7 +10,7 @@ EXTRA_PATH_METADATA = {
     "extra/favicon.ico": {"path": "favicon.ico"},
 }
 
-PLUGINS = ["sitemap", "seo"]
+# PLUGINS = ["sitemap", "seo"]
 
 TIMEZONE = "Australia/Sydney"
 
@@ -43,11 +43,10 @@ LINKS = (("blog", "https://ben-nour.com/category/blog.html"),)
 SOCIAL = (
     ("github", "https://github.com/ben-n93"),
     ("twitter", "https://twitter.com/benjamin_nour"),
-    ("medium", "https://medium.com/@ben.nour_68691"),
 )
 
 # Theme.
-THEME = "/Users/benjaminnour/opt/anaconda3/envs/pelcian/lib/python3.10/site-packages/pelican/themes/Peli-Kiera"
+THEME = "/Users/benjaminnour/Documents/Pelican Themes/Peli-Kiera"
 
 DEFAULT_PAGINATION = 10
 
