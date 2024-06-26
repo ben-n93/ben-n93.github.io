@@ -21,6 +21,9 @@ episodes and quotes.
 
     - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
 
+- [<span style="color:#00498F;">pyspaceweather</span>](https://github.com/ben-n93/pyspaceweather) is a Python wrapper for the Australian Bureau of Meteorology's [Space Weather API](https://sws-data.sws.bom.gov.au/).
+    - You can read the wrapper documentation at [ReadTheDocs](https://py-spaceweather.readthedocs.io/en/latest/).
+
 #### Applications/tools
 
 - [<span style="color:#00498F;">geojson-shave</span>](https://github.com/ben-n93/geojson-shave) - A command-line tool that reduces the size of GeoJSON file by truncuating coordinate values to the specified decimal points and eliminating whitespace.
