@@ -1,7 +1,7 @@
 Title: Reducing the size of GeoJSON files with geojson-shave
 Date: 2024-03-30
 Description: A command-line tool (written in Python) for reducing the file size of GeoJSON files.
-Tags: geospatial data, Python, regex
+Tags: geospatial data, Python
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
