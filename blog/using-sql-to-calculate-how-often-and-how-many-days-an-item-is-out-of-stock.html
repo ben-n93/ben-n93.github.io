@@ -256,7 +256,7 @@ no stock.</p>
 <span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">-- No stock!</span>
 <span class="w">    </span><span class="k">and</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">INVENTORY_LEVEL</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">-- The previous day there WAS stock.</span>
 <span class="w">    </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'OUT_OF_STOCK'</span><span class="w"> </span>
-<span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'IN STOCK'</span>
+<span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'IN STOCK'</span>
 <span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">STOCK_STATUS</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">STOCK</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">A</span><span class="w"> </span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>
@@ -344,7 +344,7 @@ next came into stock.</p>
 to return the next transcation date.</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span>
 <span class="o">*</span>
-<span class="p">,</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">TRANSACTION_DATE</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">DESC</span><span class="p">)</span>
+<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">LAG</span><span class="p">(</span><span class="n">TRANSACTION_DATE</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">DESC</span><span class="p">),</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">)</span>
 <span class="o">-</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DAYS_OUT_OF_STOCK</span>
 <span class="k">FROM</span><span class="w"> </span>
 <span class="p">(</span>
@@ -421,140 +421,11 @@ to return the next transcation date.</p>
 <td>2024-01-31</td>
 <td>0</td>
 <td>OUT_OF_STOCK</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>However you might notice an issue - in the row when the bicycle is first reported 
-as having gone out of stock (on the 16th of Jan) it's reporting that the store
-was out of bicycles for 12 days. However we know this isn't true, as there was still
-stock on the 29th of Jan. </p>
-<p><code>LEAD(inventory_level, 1)</code> won't work because we don't know how many rows ahead to return the transcation date. There could 
-have been any number of inventory checks verifying stock being on hand between when an item goes out of stock and when it next goes out of stock,
-as is the case with our dataset:</p>
-<table>
-<thead>
-<tr>
-<th>item</th>
-<th>transaction_date</th>
-<th>inventory_level</th>
-<th>stock_status</th>
-<th>days_out_of_stock</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-16</td>
-<td>0</td>
-<td>OUT_OF_STOCK</td>
-<td>12</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-28</td>
-<td>20</td>
-<td>IN STOCK</td>
-<td>1</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-29</td>
-<td>12</td>
-<td>IN STOCK</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-31</td>
-<td>0</td>
-<td>OUT_OF_STOCK</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>Ideally we want there to consistently be one row between each instance of the going out of stock rows,
-so we can use the <code>LEAD()</code> function. </p>
-<p>So let's do that by amending the <code>CASE</code> statement to only return a <code>IN STOCK</code> row if on the next date that an inventory check is conducted there ISN'T stock. 
-This will ensure we are returning the latest date that an inventory check was conducted verifying stock before the item went out of stock. </p>
-<p>Let's all wrap <code>COALESCE</code> around our outer query's <code>LAG()</code> function so that if there was no inventory check after 
-the item last went out of stock the current date is returned for the day calculation:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="o">*</span>
-<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">LAG</span><span class="p">(</span><span class="n">TRANSACTION_DATE</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">DESC</span><span class="p">),</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">)</span>
-<span class="o">-</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DAYS_OUT_OF_STOCK</span>
-<span class="k">FROM</span><span class="w"> </span>
-<span class="p">(</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">    </span><span class="n">A</span><span class="p">.</span><span class="o">*</span>
-<span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span>
-<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>
-<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">INVENTORY_LEVEL</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>
-<span class="w">        </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'OUT_OF_STOCK'</span><span class="w"> </span>
-<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">-- Verifies inventory is out of stock</span>
-<span class="w">        </span><span class="k">and</span><span class="w"> </span><span class="n">LEAD</span><span class="p">(</span><span class="n">INVENTORY_LEVEL</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="p">)</span><span class="w"> </span>
-<span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">        </span><span class="cm">/* The above LEAD function verifies that the next row has no inventory,</span>
-<span class="cm">        meaning this is this is the last day before bicycles sell out.</span>
-<span class="cm">        */</span>
-<span class="w">        </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'LAST DAY IN STOCK'</span>
-<span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">STOCK_STATUS</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">STOCK</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">A</span><span class="w"> </span>
-<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span>
-<span class="w">    </span><span class="n">A</span><span class="p">.</span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>
-<span class="w">        </span><span class="p">(</span>
-<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">B</span><span class="p">.</span><span class="n">TRANSACTION_DATE</span><span class="p">)</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">STOCK</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">B</span>
-<span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">ITEM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">ITEM</span><span class="w"> </span>
-<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">        </span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">C</span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">STOCK_STATUS</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span>
-</code></pre></div>
-<p><strong>Result set</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>item</th>
-<th>transaction_date</th>
-<th>inventory_level</th>
-<th>stock_status</th>
-<th>days_out_of_stock</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-15</td>
-<td>5</td>
-<td>LAST DAY IN STOCK</td>
-<td>1</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-16</td>
-<td>0</td>
-<td>OUT_OF_STOCK</td>
-<td>13</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-29</td>
-<td>12</td>
-<td>LAST DAY IN STOCK</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Bicycle</td>
-<td>2024-01-31</td>
-<td>0</td>
-<td>OUT_OF_STOCK</td>
 <td>153</td>
 </tr>
 </tbody>
 </table>
-<p>Perfect! </p>
+<p>Perfect!</p>
 <p>We have our answer.</p>
 <p>The Redditor who I helped asked for a single row per item which broke out how many
 times the item was out of stock and for how long (in a comma-seperated string) so let's do that:</p>
@@ -564,7 +435,7 @@ times the item was out of stock and for how long (in a comma-seperated string) s
 <span class="p">,</span><span class="w"> </span><span class="n">STRING_AGG</span><span class="p">(</span><span class="n">DAYS_OUT_OF_STOCK</span><span class="p">::</span><span class="nb">VARCHAR</span><span class="p">,</span><span class="w"> </span><span class="s1">','</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DAYS_OUT_OF_STOCK</span>
 <span class="k">FROM</span><span class="w"> </span>
 <span class="w">    </span><span class="p">(</span>
-<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span>
 <span class="w">    </span><span class="o">*</span>
 <span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">LAG</span><span class="p">(</span><span class="n">TRANSACTION_DATE</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">DESC</span><span class="p">),</span><span class="w"> </span><span class="k">CURRENT_DATE</span><span class="p">)</span>
 <span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DAYS_OUT_OF_STOCK</span>
@@ -576,9 +447,7 @@ times the item was out of stock and for how long (in a comma-seperated string) s
 <span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>
 <span class="w">            </span><span class="k">AND</span><span class="w"> </span><span class="n">LAG</span><span class="p">(</span><span class="n">INVENTORY_LEVEL</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>
 <span class="w">            </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'OUT_OF_STOCK'</span><span class="w"> </span>
-<span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">            </span><span class="k">AND</span><span class="w"> </span><span class="n">LEAD</span><span class="p">(</span><span class="n">INVENTORY_LEVEL</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ITEM</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">TRANSACTION_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">            </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'LAST DAY IN STOCK'</span>
+<span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'IN STOCK'</span>
 <span class="w">        </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">STOCK_STATUS</span>
 <span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">STOCK</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">A</span><span class="w"> </span>
 <span class="w">        </span><span class="k">WHERE</span><span class="w"> </span>
@@ -590,8 +459,8 @@ times the item was out of stock and for how long (in a comma-seperated string) s
 <span class="w">            </span><span class="k">AND</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">INVENTORY_LEVEL</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">            </span><span class="p">)</span>
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">C</span>
-<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">STOCK_STATUS</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">null</span>
-<span class="w">    </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">STOCK_STATUS</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="w">    </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">2</span>
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">D</span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">STOCK_STATUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'OUT_OF_STOCK'</span>
 <span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span>
