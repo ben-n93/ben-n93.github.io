@@ -118,7 +118,7 @@ A.*
 	WHEN A.INVENTORY_LEVEL = 0 -- No stock!
 	and LAG(INVENTORY_LEVEL, 1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE) != 0 -- The previous day there WAS stock.
 	THEN 'OUT_OF_STOCK' 
-	WHEN A.INVENTORY_LEVEL != THEN 'IN STOCK'
+	WHEN A.INVENTORY_LEVEL != 0 THEN 'IN STOCK'
 END AS STOCK_STATUS
 FROM STOCK AS A 
 WHERE A.TRANSACTION_DATE >= 
@@ -160,7 +160,7 @@ to return the next transcation date.
 ```SQL
 SELECT 
 *
-, LAG(TRANSACTION_DATE,1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE DESC)
+, COALESCE(LAG(TRANSACTION_DATE,1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE DESC), CURRENT_DATE)
 - TRANSACTION_DATE AS DAYS_OUT_OF_STOCK
 FROM 
 (
@@ -195,78 +195,9 @@ __Result set__:
 |Bicycle|2024-01-16|0|OUT_OF_STOCK|12|
 |Bicycle|2024-01-28|20|IN STOCK|1|
 |Bicycle|2024-01-29|12|IN STOCK|2|
-|Bicycle|2024-01-31|0|OUT_OF_STOCK||
-
-However you might notice an issue - in the row when the bicycle is first reported 
-as having gone out of stock (on the 16th of Jan) it's reporting that the store
-was out of bicycles for 12 days. However we know this isn't true, as there was still
-stock on the 29th of Jan. 
-
-`LEAD(inventory_level, 1)` won't work because we don't know how many rows ahead to return the transcation date. There could 
-have been any number of inventory checks verifying stock being on hand between when an item goes out of stock and when it next goes out of stock,
-as is the case with our dataset:
-
-|item|transaction_date|inventory_level|stock_status|days_out_of_stock|
-|----|----------------|---------------|------------|-----------------|
-|Bicycle|2024-01-16|0|OUT_OF_STOCK|12|
-|Bicycle|2024-01-28|20|IN STOCK|1|
-|Bicycle|2024-01-29|12|IN STOCK|2|
-|Bicycle|2024-01-31|0|OUT_OF_STOCK||
-
-Ideally we want there to consistently be one row between each instance of the going out of stock rows,
-so we can use the `LEAD()` function. 
-
-So let's do that by amending the `CASE` statement to only return a `IN STOCK` row if on the next date that an inventory check is conducted there ISN'T stock. 
-This will ensure we are returning the latest date that an inventory check was conducted verifying stock before the item went out of stock. 
-
-Let's all wrap `COALESCE` around our outer query's `LAG()` function so that if there was no inventory check after 
-the item last went out of stock the current date is returned for the day calculation:
-
-``` SQL
-SELECT
-*
-, COALESCE(LAG(TRANSACTION_DATE,1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE DESC), CURRENT_DATE)
-- TRANSACTION_DATE AS DAYS_OUT_OF_STOCK
-FROM 
-(
-	SELECT
-	A.*
-	, CASE 
-		WHEN A.INVENTORY_LEVEL = 0 
-		AND LAG(INVENTORY_LEVEL, 1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE) != 0 
-		THEN 'OUT_OF_STOCK' 
-		WHEN A.INVENTORY_LEVEL != 0 -- Verifies inventory is out of stock
-		and LEAD(INVENTORY_LEVEL, 1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE) 
-		= 0
-		/* The above LEAD function verifies that the next row has no inventory,
-		meaning this is this is the last day before bicycles sell out.
-		*/
-		THEN 'LAST DAY IN STOCK'
-	END AS STOCK_STATUS
-	FROM STOCK AS A 
-	WHERE 
-	A.TRANSACTION_DATE >= 
-		(
-		SELECT MIN(B.TRANSACTION_DATE)
-		FROM STOCK AS B
-		WHERE B.ITEM = A.ITEM 
-		AND B.INVENTORY_LEVEL != 0
-		)
-) C
-WHERE STOCK_STATUS IS NOT NULL
-ORDER BY 2 
-```
-
-__Result set__:
-
-|item|transaction_date|inventory_level|stock_status|days_out_of_stock|
-|----|----------------|---------------|------------|-----------------|
-|Bicycle|2024-01-15|5|LAST DAY IN STOCK|1|
-|Bicycle|2024-01-16|0|OUT_OF_STOCK|13|
-|Bicycle|2024-01-29|12|LAST DAY IN STOCK|2|
 |Bicycle|2024-01-31|0|OUT_OF_STOCK|153|
 
-Perfect! 
+Perfect!
 
 We have our answer.
 
@@ -280,7 +211,7 @@ ITEM
 , STRING_AGG(DAYS_OUT_OF_STOCK::VARCHAR, ',') AS DAYS_OUT_OF_STOCK
 FROM 
 	(
-	SELECT
+	SELECT 
 	*
 	, COALESCE(LAG(TRANSACTION_DATE,1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE DESC), CURRENT_DATE)
 	- TRANSACTION_DATE AS DAYS_OUT_OF_STOCK
@@ -292,9 +223,7 @@ FROM
 			WHEN A.INVENTORY_LEVEL = 0 
 			AND LAG(INVENTORY_LEVEL, 1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE) != 0 
 			THEN 'OUT_OF_STOCK' 
-			WHEN A.INVENTORY_LEVEL != 0
-			AND LEAD(INVENTORY_LEVEL, 1) OVER (PARTITION BY ITEM ORDER BY TRANSACTION_DATE) = 0
-			THEN 'LAST DAY IN STOCK'
+			WHEN A.INVENTORY_LEVEL != 0 THEN 'IN STOCK'
 		END AS STOCK_STATUS
 		FROM STOCK AS A 
 		WHERE 
@@ -306,8 +235,8 @@ FROM
 			AND B.INVENTORY_LEVEL != 0
 			)
 	) C
-	WHERE STOCK_STATUS IS NOT null
-	ORDER BY 2 
+	WHERE STOCK_STATUS IS NOT NULL
+	ORDER BY 2
 	) AS D
 WHERE STOCK_STATUS = 'OUT_OF_STOCK'
 GROUP BY 1
