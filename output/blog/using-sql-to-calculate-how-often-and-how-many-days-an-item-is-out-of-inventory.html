@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+<title>Ben Nour - Using SQL to calculate how often and how many days an item is out of inventory</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" rel="stylesheet"/>
+<link href="https://ben-nour.com/theme/css/main.css" rel="stylesheet" type="text/css"/>
+<meta content="SQL" name="tags">
+<meta content="PostgresQL" name="tags">
+</meta></meta><link href="https://ben-nour.com/blog/using-sql-to-calculate-how-often-and-how-many-days-an-item-is-out-of-inventory.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ben Nour", "item": "https://ben-nour.com"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://ben-nour.com/blog"}, {"@type": "ListItem", "position": 3, "name": "Using sql to calculate how often and how many days an item is out of inventory", "item": "https://ben-nour.com/blog/using-sql-to-calculate-how-often-and-how-many-days-an-item-is-out-of-inventory.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Ben Nour"}, "publisher": {"@type": "Organization", "name": "Ben Nour"}, "headline": "Using SQL to calculate how often and how many days an item is out of inventory", "about": "blog", "datePublished": "2024-06-30 00:00"}</script></head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+<header>
+<h1><a href="https://ben-nour.com/">Ben Nour</a></h1>
+<ul class="social-media">
+<li><a href="https://github.com/ben-n93"><i aria-hidden="true" class="fab fa-github fa-lg"></i></a></li>
+<li><a href="https://twitter.com/benjamin_nour"><i aria-hidden="true" class="fab fa-twitter fa-lg"></i></a></li>
+</ul>
+<p><em></em></p>
+</header>
+<nav>
+<ul>
+<li><a class="active" href="https://ben-nour.com/category/blog.html">blog</a></li>
+<li><a href="https://ben-nour.com/pages/about-me.html">about me</a></li>
+<li><a href="https://ben-nour.com/pages/projects.html">projects</a></li>
+</ul>
+</nav>
+<main>
+<article>
+<h1>Using SQL to calculate how often and how many days an item is out of inventory</h1>
+<aside>
+<ul>
+<li>
+<time datetime="2024-06-30 00:00:00+10:00">Jun 30, 2024</time>
+</li>
+<li>
+                    Categories:
+                    <a href="https://ben-nour.com/category/blog.html"><em>blog</em></a>
+</li>
+<li>
+                    Tags:
+                    <a href="https://ben-nour.com/tag/sql.html"><em>#SQL</em></a>
+<a href="https://ben-nour.com/tag/postgresql.html"><em>#PostgresQL</em></a>
+</li>
+</ul>
+</aside>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TFP90633KX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TFP90633KX');
+</script>
+<p>Recently a Reddit user posted in r/SQL wanting to know how to calculate 
+how often and how many days an item was out of stock.</p>
+<p>I enjoyed coming up with a solution and so I've decided to explore my answer
+in more detail on this website.</p>
+<h2>The data</h2>
+<p>First, the dataset we'll be operating on:</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>transaction_date</th>
+<th>inventory_level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-01</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-05</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-15</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-16</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-20</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-23</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-25</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-28</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-29</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Bicycle</td>
+<td>2024-01-31</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</article>
+<section class="post-nav">
+<div id="left-page">
+<div id="left-link">
+</div>
+</div>
+<div id="right-page">
+<div id="right-link">
+</div>
+</div>
+</section>
+<div>
+<div class="comments">
+<h2>Comments !</h2>
+<div id="disqus_thread"></div>
+<script>
+            var disqus_config = function () {
+                this.page.url = "https://ben-nour.com/blog/using-sql-to-calculate-how-often-and-how-many-days-an-item-is-out-of-inventory.html";
+                this.page.identifier = "using-sql-to-calculate-how-often-and-how-many-days-an-item-is-out-of-inventory";
+                this.page.title = "Using SQL to calculate how often and how many days an item is out of inventory";
+            };
+            (function () {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = 'https://ben-nour.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+            powered by
+            Disqus.</a></noscript>
+</div>
+</div>
+</main>
+<footer>
+<h6>
+            Rendered by <a href="http://getpelican.com/">Pelican</a>  •  Theme by <a href="https://github.com/aleylara/Peli-Kiera">Peli-Kiera</a> 
+             •  Copyright ©  ‑  Ben Nour         </h6>
+</footer>
+</div>
+</body>
+</html>
