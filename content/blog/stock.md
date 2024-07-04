@@ -250,7 +250,7 @@ Our final __result set__:
 
 You can find all the code used in this blog post [here](https://gist.github.com/ben-n93/ffbd565c816b510c51f6b24320bdd5b1).
 
-You can also test the code out [here](https://sqlfiddle.com/postgresql/online-compiler?id=7177be96-8798-4b30-ba07-5afac45644d4).
+You can also test the code out [here](https://sqlfiddle.com/postgresql/online-compiler?id=b426842e-6e3c-4d50-81a5-f3afcd04a183).
 
 
 
