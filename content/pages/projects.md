@@ -16,11 +16,6 @@ Here are some of the projects I've developed:
 
 #### APIs
 
-- [<span style="color:#00498F;">Archer API</span>](https://www.archerapi.com/) is a REST API based on the adult animated sitcom Archer. It provides data about Archer's characters,
-episodes and quotes.
-
-    - Built with [Flask](https://flask.palletsprojects.com/en/2.2.x/) and hosted on [Heroku](https://www.heroku.com/). You can view the source code on [Github](https://github.com/ben-n93/archer_api).
-
 - [<span style="color:#00498F;">pyspaceweather</span>](https://github.com/ben-n93/pyspaceweather) is a Python wrapper for the Australian Bureau of Meteorology's [Space Weather API](https://sws-data.sws.bom.gov.au/).
     - You can read the wrapper documentation at [ReadTheDocs](https://py-spaceweather.readthedocs.io/en/latest/).
 
