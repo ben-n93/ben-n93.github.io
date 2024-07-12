@@ -49,8 +49,30 @@ was made so it is possible that bicycles could have come in and out of stock
 between inventory checks. However that's a data entry problem, not ours. We can only
 work with the data we've been given!
 
-If you want to follow along in Postgres you can find the code to create the 
-table and insert the data [here](https://gist.github.com/ben-n93/9c59e49f231ad131dfa0300f30d85332).
+If you want to follow along in Postgres here is the code to create the 
+table and insert the data:
+
+```SQL
+CREATE TABLE stock (
+    item VARCHAR(50),
+    transaction_date DATE,
+    inventory_level INT
+);
+
+INSERT INTO stock (item, transaction_date, inventory_level) VALUES
+('Bicycle', '2024-01-01', 0),
+('Bicycle', '2024-01-05', 0),
+('Bicycle', '2024-01-10', 10),
+('Bicycle', '2024-01-15', 5),
+('Bicycle', '2024-01-16', 0),
+('Bicycle', '2024-01-20', 0),
+('Bicycle', '2024-01-23', 0),
+('Bicycle', '2024-01-25', 0),
+('Bicycle', '2024-01-28', 20),
+('Bicycle', '2024-01-29', 12),
+('Bicycle', '2024-01-31', 0)
+;
+```
 
 ## The challenge
 
@@ -253,9 +275,7 @@ Our final __result set__:
 |----|------------------|-----------------|
 |Bicycle|2|13,153|
 
-You can find all the code used in this blog post [here](https://gist.github.com/ben-n93/ffbd565c816b510c51f6b24320bdd5b1).
-
-You can also test the code out [here](https://sqlfiddle.com/postgresql/online-compiler?id=b426842e-6e3c-4d50-81a5-f3afcd04a183).
+You can also test the code used in this post [here](https://sqlfiddle.com/postgresql/online-compiler?id=b426842e-6e3c-4d50-81a5-f3afcd04a183).
 
 
 
