@@ -109,7 +109,7 @@ In other words, we want to capture every instance in which on the last
 inventory count day there was stock and on the current counting day there was
 no stock.
 
-We can achieve this using the `LAG()` window function:
+We can achieve this using the `LAG()` window function to see how much inventory there was on the previous day:
 
 ```SQL
 SELECT
