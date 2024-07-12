@@ -152,10 +152,15 @@ Next, let's calculate how long bicycles were sold out for.
 
 All we need to do is calculate the difference in days between when an item 
 was flagged as having gone out of stock and when it 
-next came into stock.
+next came into stock (or more accurately, when an inventory check was recorded that revealed there was stock).
 
 This is simple enough using the `LEAD()` window function, which we can use 
-to return the next transcation date.
+to return the next transcation date. 
+
+As we've filtered out rows with `NULL` for the `stock_status` column, what will be returned is, if it exists, the next transcation date in which an inventory count is conducted
+that reveals bicycles are back in stock. 
+
+I've also wrapped `COALESCE()` around `LEAD()` so if there is no next row (meaning bicycles are still out of stock) what's returned is the current date so the date calculation will work:
 
 ```SQL
 SELECT 
