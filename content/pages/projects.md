@@ -23,6 +23,8 @@ Here are some of the projects I've developed:
 
 - [<span style="color:#00498F;">geojson-shave</span>](https://github.com/ben-n93/geojson-shave) - A command-line tool that reduces the size of GeoJSON file by truncuating coordinate values to the specified decimal points and eliminating whitespace.
 
+- [<span style="color:#00498F;">gists-gone</span>](https://github.com/ben-n93/gists-gone) - A command-line tool that gives you granular control over bulk deleting your Github gists.
+
 - [<span style="color:#00498F;">tab-pal</span>](https://github.com/ben-n93/tab-pal) - A command-line application that makes it easier, quicker and prettier to 
 create custom colour palettes in Tableau.
 
