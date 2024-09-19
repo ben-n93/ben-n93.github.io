@@ -1,6 +1,6 @@
-Title: Filling in missing dates using SQL
+Title: Data cleaning with SQL: filling missing dates
 Date: 2024-09-19
-Description: Using SQL in Snowflake to fill missing dates/data clean in a dataset.
+Description: Data cleaning with SQL to fill missing dates/data clean in a dataset in Snowflake data warehouse.
 Tags: SQL, Snowflake, data-cleaning
 
 Filling in missing dates is a common data cleaning task that can be a bit of a curly problem when
