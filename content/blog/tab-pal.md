@@ -3,8 +3,8 @@ Date: 2024-04-30
 Description: A command-line app to make it easier and quicker to add and edit custom colour palettes in Tableau.
 Tags: Python, Tableau, data-visualisation, command-line
 
-While I like Tableau's in-built colour palettes I also like to create my own 
-custom colour palettes.
+If you're anything like me most of the time Tableau's in-built colour palettes are more than suitable for the visualisation you're creating.
+That said, I also quite like to create my own custom colour palettes for use in Tableau.
 
 Unfortunately in order to create custom colour palettes in Tableau you have 
 to find your `Preferences.tsp` file and then edit the XML:

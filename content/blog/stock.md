@@ -1,4 +1,4 @@
-Title: Using PostgreSQL to calculate how often and how many days a store's inventory is out of stock 
+Title: Using SQL to calculate how often and how many days a store's inventory is out of stock 
 Date: 2024-07-02
 Description: Using SQL in the PostgreSQL database to calculate how often and how many days a store's inventory is out of stock.
 Tags: SQL, PostgreSQL
