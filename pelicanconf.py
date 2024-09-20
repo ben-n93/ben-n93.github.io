@@ -16,6 +16,8 @@ TIMEZONE = "Australia/Sydney"
 
 DEFAULT_LANG = "en"
 
+DELETE_OUTPUT_DIRECTORY = True 
+
 # FAVICON = './content/images/ben_favicon.jpg'
 
 # Articles
