@@ -1,6 +1,6 @@
 Title: Data cleaning with SQL: filling missing dates
 Date: 2024-09-19
-Description: Data cleaning with SQL to fill missing dates/data clean in a dataset in Snowflake data warehouse.
+Description: Data cleaning with SQL to fill missing dates/data clean in a dataset in Snowflake data warehouse. A recursive common table expression (CTE) is used with the solution.
 Tags: SQL, Snowflake, data-cleaning
 
 Filling in missing dates is a common data cleaning task that can be a bit of a curly problem when
