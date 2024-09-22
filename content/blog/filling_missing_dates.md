@@ -6,7 +6,7 @@ Tags: SQL, Snowflake, data-cleaning
 Filling in missing dates is a common data cleaning task that can be a bit of a curly problem when
 taking into account different groups of data within a dataset.
 
-To demonstrate this (and the solution) I'll be using  a table called `page_traffic`:
+To demonstrate this (and the solutions) I'll be using  a table called `page_traffic`:
 
 |DT|PAGE_NAME|PAGE_VIEWS|
 |--|---------|----------|
@@ -55,7 +55,7 @@ INSERT INTO PAGE_TRAFFIC (DT, PAGE_NAME, PAGE_VIEWS) VALUES('2024-09-02', 'Inter
 INSERT INTO PAGE_TRAFFIC (DT, PAGE_NAME, PAGE_VIEWS) VALUES('2024-09-08', 'International news', 9);
 ```
 
-If you don't want to read the explanation you can jump straight to the [solution](#codesolution). 
+If you don't want to read the explanation you can jump straight to the [solutions](#codesolutions). 
 
 ## Generating the dates 
 
@@ -198,9 +198,9 @@ FROM page_traffic AS pt
 
 ```
 
-... however this is a cumbersome solution, particularly when there is a more elegant, dyanmic solution.
-
-### The solution
+... however this is a cumbersome solution, particularly when there is a more elegant, dynamic solutions.
+<a id="codesolutions"></a>
+### Solution 1 
 
 We want to ensure that every date/row from `DATES` is paired wth as many unique values as there are in our `page_traffic` table.
 
@@ -369,11 +369,10 @@ As you can see, rows with a non-NULL value will always be ranked 1 and we just n
 
 What about dates on which there are no page views? `NULL` values will recieve the same rank but our `DISTINCT` keyword will take care of them (returning only 1 row).
 
-And that's it! 
+And that's our first solution!
 
 If you're using Snowflake or any other RDBMS where the `QUALIFY` clause is supported we can filter to rows ranked 1 without having to using an inline-view or additional CTE:
 
-<a id="codesolution"></a>
 ``` SQL
 -- RDBMS with QUALIFY:
 WITH RECURSIVE DATES AS 
@@ -441,3 +440,72 @@ ORDER BY PAGE_NAME, DATES_DT
 |2024-09-06|International news||
 |2024-09-07|International news||
 |2024-09-08|International news|9|
+
+### Solution 2
+
+Solution 2 involves the same approach, in that we're using a `CROSS JOIN` to make sure there is a row for every date in our range for every unique page name.
+However we'll also use a `LEFT JOIN` to take out the manual work of evaluating whether a page view exists for a date.
+
+By using an in-line view of distinct page names we can join every date in our range with all possible page names:
+
+```SQL
+WITH RECURSIVE DATES AS 
+(
+SELECT DATE('2024-09-01') AS DT 
+UNION ALL
+SELECT DATEADD(DAY, 1, DT) AS DT 
+FROM DATES 
+WHERE DT < '2024-09-08'
+)
+SELECT 
+DISTINCT 
+dates.dt AS dt
+, pn.PAGE_NAME
+FROM DATES
+	CROSS JOIN (SELECT DISTINCT page_name FROM page_traffic) AS pn
+```
+
+|dates_dt|page_name|
+|--------|---------|
+|2024-09-01|Homepage|
+|2024-09-01|International news|
+|2024-09-02|Homepage|
+|2024-09-02|International news|
+|2024-09-03|Homepage|
+|2024-09-03|International news|
+|2024-09-04|Homepage|
+|2024-09-04|International news|
+|2024-09-05|Homepage|
+|2024-09-05|International news|
+|2024-09-06|Homepage|
+|2024-09-06|International news|
+|2024-09-07|Homepage|
+|2024-09-07|International news|
+|2024-09-08|Homepage|
+|2024-09-08|International news|
+
+Next, let's `LEFT JOIN` to `page_traffic`. If a page view exists that's what
+will be returned, otherwise `NULL` will be returned:
+
+```SQL
+WITH RECURSIVE DATES AS 
+(
+SELECT DATE('2024-09-01') AS DT 
+UNION ALL
+SELECT DATEADD(DAY, 1, DT) AS DT 
+FROM DATES 
+WHERE DT < '2024-09-08'
+)
+SELECT
+dates.dt AS dates_dt
+, pn.page_name
+, pt.page_views as pv
+FROM dates as dates
+    CROSS JOIN (SELECT DISTINCT page_name FROM page_traffic) AS pn 
+	LEFT join page_traffic as pt 
+	ON pt.dt = dates.dt
+	AND pt.page_name = pn.page_name
+ORDER BY page_name, dates_dt
+```
+
+And that's it! 

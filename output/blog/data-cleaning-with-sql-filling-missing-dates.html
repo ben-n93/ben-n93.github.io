@@ -76,8 +76,7 @@
 </aside>
 <p>Filling in missing dates is a common data cleaning task that can be a bit of a curly problem when
 taking into account different groups of data within a dataset.</p>
-<script src="https://gist.github.com/ben-n93/881b2ce74c396e912957849cfaa95194.js"></script>
-<p>To demonstrate this (and the solution) I'll be using  a table called <code>page_traffic</code>:</p>
+<p>To demonstrate this (and the solutions) I'll be using  a table called <code>page_traffic</code>:</p>
 <table>
 <thead>
 <tr>
@@ -220,7 +219,7 @@ taking into account different groups of data within a dataset.</p>
 <span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PAGE_TRAFFIC</span><span class="w"> </span><span class="p">(</span><span class="n">DT</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="p">(</span><span class="s1">'2024-09-02'</span><span class="p">,</span><span class="w"> </span><span class="s1">'International news'</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
 <span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">PAGE_TRAFFIC</span><span class="w"> </span><span class="p">(</span><span class="n">DT</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="p">(</span><span class="s1">'2024-09-08'</span><span class="p">,</span><span class="w"> </span><span class="s1">'International news'</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">);</span>
 </code></pre></div>
-<p>If you don't want to read the explanation you can jump straight to the <a href="#codesolution">solution</a>. </p>
+<p>If you don't want to read the explanation you can jump straight to the <a href="#codesolutions">solutions</a>. </p>
 <h2>Generating the dates</h2>
 <p>First let's use a recursive CTE to create the date range we're after:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
@@ -431,8 +430,9 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'International news'</span>
 </code></pre></div>
-<p>... however this is a cumbersome solution, particularly when there is a more elegant, dyanmic solution.</p>
-<h3>The solution</h3>
+<p>... however this is a cumbersome solution, particularly when there is a more elegant, dynamic solutions.
+<a id="codesolutions"></a></p>
+<h3>Solution 1</h3>
 <p>We want to ensure that every date/row from <code>DATES</code> is paired wth as many unique values as there are in our <code>page_traffic</code> table.</p>
 <p>Once we've done this, we can deduplicate the data so that <code>page_views</code> data is only returned when it exists.</p>
 <p>We can accomplish this by using a <code>CROSS JOIN</code> which will join each row in our <code>DATES</code> data with each row in our <code>page_views</code> table (resulting in what is known as a Cartesian product).</p>
@@ -899,9 +899,8 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 </table>
 <p>As you can see, rows with a non-NULL value will always be ranked 1 and we just need to filter out rows without this rank.</p>
 <p>What about dates on which there are no page views? <code>NULL</code> values will recieve the same rank but our <code>DISTINCT</code> keyword will take care of them (returning only 1 row).</p>
-<p>And that's it! </p>
+<p>And that's our first solution!</p>
 <p>If you're using Snowflake or any other RDBMS where the <code>QUALIFY</code> clause is supported we can filter to rows ranked 1 without having to using an inline-view or additional CTE:</p>
-<p><a id="codesolution"></a></p>
 <div class="highlight"><pre><span></span><code><span class="c1">-- RDBMS with QUALIFY:</span>
 <span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
@@ -1040,6 +1039,121 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 </tr>
 </tbody>
 </table>
+<h3>Solution 2</h3>
+<p>Solution 2 involves the same approach, in that we're using a <code>CROSS JOIN</code> to make sure there is a row for every date in our range for every unique page name.
+However we'll also use a <code>LEFT JOIN</code> to take out the manual work of evaluating whether a page view exists for a date.</p>
+<p>By using an in-line view of distinct page names we can join every date in our range with all possible page names:</p>
+<div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
+<span class="p">(</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span>
+<span class="k">DISTINCT</span><span class="w"> </span>
+<span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">PAGE_NAME</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span>
+<span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pn</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>dates_dt</th>
+<th>page_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024-09-01</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-01</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-02</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-02</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-03</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-03</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-04</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-04</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-05</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-05</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-06</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-06</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-07</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-07</td>
+<td>International news</td>
+</tr>
+<tr>
+<td>2024-09-08</td>
+<td>Homepage</td>
+</tr>
+<tr>
+<td>2024-09-08</td>
+<td>International news</td>
+</tr>
+</tbody>
+</table>
+<p>Next, let's <code>LEFT JOIN</code> to <code>page_traffic</code>. If a page view exists that's what
+will be returned, otherwise <code>NULL</code> will be returned:</p>
+<div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
+<span class="p">(</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="p">)</span>
+<span class="k">SELECT</span>
+<span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">page_name</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_views</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">pv</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">dates</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dates</span>
+<span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pn</span><span class="w"> </span>
+<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">page_name</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">dates_dt</span>
+</code></pre></div>
+<p>And that's it! </p>
 </article>
 <section class="post-nav">
 <div id="left-page">
