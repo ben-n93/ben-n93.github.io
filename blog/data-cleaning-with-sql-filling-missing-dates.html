@@ -224,14 +224,15 @@ taking into account different groups of data within a dataset.</p>
 <p>First let's use a recursive CTE to create the date range we're after:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">)</span>
 <span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -271,9 +272,9 @@ taking into account different groups of data within a dataset.</p>
 <p>Using a <code>RIGHT JOIN</code> we'll return every row from <code>DATES</code> and also return <code>PAGE_VIEWS</code> from <code>page_traffic</code> where they exist:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">)</span>
@@ -282,7 +283,7 @@ taking into account different groups of data within a dataset.</p>
 <span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="w"> </span><span class="c1">-- NULL is returned if there is no match in DATES.</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="c1">-- All rows from this CTE will be returned, even if there is no match in page_traffic.</span>
-<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Homepage'</span>
 <span class="p">;</span>
 </code></pre></div>
@@ -335,12 +336,12 @@ taking into account different groups of data within a dataset.</p>
 has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w">  </span><span class="p">...</span><span class="w"> </span><span class="c1">-- Truncuating this to make these code blocks more readable.</span>
 <span class="k">SELECT</span><span class="w"> </span>
-<span class="n">DATES</span><span class="p">.</span><span class="n">DT</span>
+<span class="n">DATES</span><span class="p">.</span><span class="n">dt</span>
 <span class="p">,</span><span class="w"> </span><span class="n">page_name</span>
-<span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span>
+<span class="p">,</span><span class="w"> </span><span class="n">page_views</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span>
-<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Homepage'</span>
 <span class="p">;</span>
 </code></pre></div>
@@ -398,24 +399,25 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <p>To solve this problem we could harcode the value, use <code>COALESCE()</code> or a window function:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w">  </span><span class="p">...</span>
 <span class="k">SELECT</span><span class="w"> </span>
-<span class="n">DATES</span><span class="p">.</span><span class="n">DT</span>
+<span class="n">DATES</span><span class="p">.</span><span class="n">dt</span>
 <span class="p">,</span><span class="w"> </span><span class="s1">'Homepage'</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">page_name</span>
 <span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'Homepage'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">page_name_v2</span>
 <span class="p">,</span><span class="w"> </span><span class="n">FIRST_VALUE</span><span class="p">(</span><span class="n">PAGE_NAME</span><span class="p">)</span><span class="w"> </span><span class="k">IGNORE</span><span class="w"> </span><span class="n">NULLS</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">page_name_v3</span>
 <span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span>
-<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Homepage'</span>
+<span class="p">;</span>
 </code></pre></div>
 <p>However these solutions won't work considering that our dataset includes more than one unique value in the <code>page_name</code> column.</p>
 <p>Remember, up until now I've just been focused on the <em>Homepage</em> rows.</p>
 <p>One solution would be to use <code>COALESCE</code> with a <code>SELECT</code> query for each unique group in <code>page_traffic</code> and use a <code>UNION ALL</code> to create a complete dataset...</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">...</span>
 <span class="k">SELECT</span><span class="w"> </span>
-<span class="n">DATES</span><span class="p">.</span><span class="n">DT</span>
-<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'Homepage'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PAGE_NAME</span>
-<span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span>
+<span class="n">DATES</span><span class="p">.</span><span class="n">dt</span>
+<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'Homepage'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">page_name</span>
+<span class="p">,</span><span class="w"> </span><span class="n">page_views</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span>
 <span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
@@ -423,12 +425,13 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="n">DATES</span><span class="p">.</span><span class="n">DT</span>
-<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'International news'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PAGE_NAME</span>
-<span class="p">,</span><span class="w"> </span><span class="n">PAGE_VIEWS</span>
+<span class="p">,</span><span class="w"> </span><span class="k">COALESCE</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="s1">'International news'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">page_name</span>
+<span class="p">,</span><span class="w"> </span><span class="n">page_views</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">RIGHT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span>
-<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span>
+<span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'International news'</span>
+<span class="p">;</span>
 </code></pre></div>
 <p>... however this is a cumbersome solution, particularly when there is a more elegant, dynamic solutions.
 <a id="codesolutions"></a></p>
@@ -440,10 +443,11 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">...</span>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="n">pt</span><span class="p">.</span><span class="o">*</span>
-<span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">DATES_DT</span><span class="w"> </span><span class="c1">-- Note I've renamed it this to make it a bit easier to understand.</span>
+<span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dates_dt</span><span class="w"> </span><span class="c1">-- Note I've renamed it this to make it a bit easier to understand.</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -703,11 +707,12 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">...</span>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="k">DISTINCT</span><span class="w"> </span>
-<span class="n">DATES</span><span class="p">.</span><span class="n">DT</span>
-<span class="p">,</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">PAGE_NAME</span><span class="w"> </span>
+<span class="n">DATES</span><span class="p">.</span><span class="n">dt</span>
+<span class="p">,</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">page_name</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -793,7 +798,8 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'2024-09-01'</span>
 <span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Homepage'</span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">DT</span><span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -830,8 +836,8 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="k">DISTINCT</span><span class="w"> </span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
-<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">PAGE_NAME</span><span class="w"> </span>
-<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span><span class="w"> </span>
+<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">page_views</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'2024-09-01'</span>
@@ -865,13 +871,14 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="k">DISTINCT</span><span class="w"> </span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
-<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">PAGE_NAME</span><span class="w"> </span>
-<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span><span class="w"> </span><span class="c1">-- Be sure to rename this column.</span>
-<span class="p">,</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATES_DT</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pv</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv_ranking</span><span class="w"> </span>
+<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span><span class="w"> </span>
+<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">page_views</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span><span class="w"> </span><span class="c1">-- Be sure to rename this column.</span>
+<span class="p">,</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">dates_dt</span><span class="p">,</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pv</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv_ranking</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'2024-09-01'</span>
 <span class="k">AND</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Homepage'</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -904,38 +911,39 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">-- RDBMS with QUALIFY:</span>
 <span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">)</span>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="k">DISTINCT</span><span class="w"> </span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
-<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">PAGE_NAME</span>
-<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PV</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span>
+<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">page_views</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="n">QUALIFY</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATES_DT</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PV</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATES_DT</span>
+<span class="n">QUALIFY</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">dates_dt</span><span class="p">,</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pv</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">dates_dt</span>
+<span class="p">;</span>
 
 <span class="c1">-- If QUALIFY is not supported:</span>
 <span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">),</span><span class="w"> </span>
 <span class="n">final_dataset</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
 <span class="k">SELECT</span><span class="w">  </span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
-<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">PAGE_NAME</span>
-<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">PAGE_VIEWS</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PV</span>
-<span class="p">,</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATES_DT</span><span class="p">,</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PV</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv_rank</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span>
+<span class="p">,</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">DATES</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PT</span><span class="p">.</span><span class="n">DT</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">page_views</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv</span>
+<span class="p">,</span><span class="w"> </span><span class="n">RANK</span><span class="p">()</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">dates_dt</span><span class="p">,</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">pv</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pv_rank</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
 <span class="p">)</span>
@@ -946,7 +954,8 @@ has a match with rows in <code>page_traffic</code> that have the same date:</p>
 <span class="p">,</span><span class="w"> </span><span class="n">pv</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">final_dataset</span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">pv_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">PAGE_NAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATES_DT</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">dates_dt</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -1045,18 +1054,19 @@ However we'll also use a <code>LEFT JOIN</code> to take out the manual work of e
 <p>By using an in-line view of distinct page names we can join every date in our range with all possible page names:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">)</span>
 <span class="k">SELECT</span><span class="w"> </span>
 <span class="k">DISTINCT</span><span class="w"> </span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span>
-<span class="p">,</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">PAGE_NAME</span>
+<span class="p">,</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">page_name</span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span>
 <span class="w">    </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">page_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">page_traffic</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">pn</span>
+<span class="p">;</span>
 </code></pre></div>
 <table>
 <thead>
@@ -1136,11 +1146,11 @@ However we'll also use a <code>LEFT JOIN</code> to take out the manual work of e
 will be returned, otherwise <code>NULL</code> will be returned:</p>
 <div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span>
 <span class="p">(</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2024-09-01'</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">DT</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">DATES</span><span class="w"> </span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">DT</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="s1">'2024-09-08'</span>
 <span class="p">)</span>
 <span class="k">SELECT</span>
 <span class="n">dates</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">dates_dt</span>
@@ -1152,6 +1162,7 @@ will be returned, otherwise <code>NULL</code> will be returned:</p>
 <span class="w">    </span><span class="k">ON</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">.</span><span class="n">dt</span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">page_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pn</span><span class="p">.</span><span class="n">page_name</span>
 <span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">page_name</span><span class="p">,</span><span class="w"> </span><span class="n">dates_dt</span>
+<span class="p">;</span>
 </code></pre></div>
 <p>And that's it! </p>
 </article>
