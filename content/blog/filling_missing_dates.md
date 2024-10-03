@@ -64,14 +64,15 @@ First let's use a recursive CTE to create the date range we're after:
 ```SQL
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, dt) AS dt 
 FROM DATES 
-WHERE DT < '2024-09-08'
+WHERE dt < '2024-09-08'
 )
 SELECT * 
 FROM DATES
+;
 ```
 
 |DT|
@@ -94,9 +95,9 @@ Using a `RIGHT JOIN` we'll return every row from `DATES` and also return `PAGE_V
 ``` SQL
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, dt) AS dt 
 FROM DATES 
 WHERE DT < '2024-09-08'
 )
@@ -105,7 +106,7 @@ DATES.DT
 , PAGE_VIEWS -- NULL is returned if there is no match in DATES.
 FROM page_traffic AS pt 
 	RIGHT JOIN DATES -- All rows from this CTE will be returned, even if there is no match in page_traffic.
-	ON pt.DT = dates.DT 
+	ON pt.dt = dates.dt 
 	AND page_name = 'Homepage'
 ;
 ```
@@ -133,12 +134,12 @@ has a match with rows in `page_traffic` that have the same date:
 ```SQL 
 WITH RECURSIVE DATES AS  ... -- Truncuating this to make these code blocks more readable.
 SELECT 
-DATES.DT
+DATES.dt
 , page_name
-, PAGE_VIEWS
+, page_views
 FROM page_traffic AS pt 
 	RIGHT JOIN DATES
-	ON pt.DT = dates.DT 
+	ON pt.dt = dates.dt 
 	AND page_name = 'Homepage'
 ;
 ```
@@ -159,15 +160,16 @@ To solve this problem we could harcode the value, use `COALESCE()` or a window f
 ``` SQL
 WITH RECURSIVE DATES AS  ...
 SELECT 
-DATES.DT
+DATES.dt
 , 'Homepage' AS page_name
 , COALESCE(page_name, 'Homepage') AS page_name_v2
 , FIRST_VALUE(PAGE_NAME) IGNORE NULLS OVER (ORDER BY DATES.DT) AS page_name_v3
 , PAGE_VIEWS
 FROM page_traffic AS pt 
 	RIGHT JOIN DATES
-	ON pt.DT = dates.DT 
+	ON pt.dt = dates.dt 
 	AND page_name = 'Homepage'
+;
 ```
 
 However these solutions won't work considering that our dataset includes more than one unique value in the `page_name` column.
@@ -179,9 +181,9 @@ One solution would be to use `COALESCE` with a `SELECT` query for each unique gr
 ```SQL
 WITH RECURSIVE DATES AS ...
 SELECT 
-DATES.DT
-, COALESCE(page_name, 'Homepage') AS PAGE_NAME
-, PAGE_VIEWS
+DATES.dt
+, COALESCE(page_name, 'Homepage') AS page_name
+, page_views
 FROM page_traffic AS pt 
 	RIGHT JOIN DATES
 	ON pt.DT = dates.DT 
@@ -189,13 +191,13 @@ FROM page_traffic AS pt
 UNION ALL 
 SELECT 
 DATES.DT
-, COALESCE(page_name, 'International news') AS PAGE_NAME
-, PAGE_VIEWS
+, COALESCE(page_name, 'International news') AS page_name
+, page_views
 FROM page_traffic AS pt 
 	RIGHT JOIN DATES
-	ON pt.DT = dates.DT 
+	ON pt.dt = dates.dt 
 	AND page_name = 'International news'
-
+;
 ```
 
 ... however this is a cumbersome solution, particularly when there is a more elegant, dynamic solutions.
@@ -214,10 +216,11 @@ Let's examine what that looks like:
 WITH RECURSIVE DATES AS ...
 SELECT 
 pt.*
-, dates.dt as DATES_DT -- Note I've renamed it this to make it a bit easier to understand.
+, dates.dt as dates_dt -- Note I've renamed it this to make it a bit easier to understand.
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
-ORDER BY PAGE_NAME, pt.DT, dates.dt
+ORDER BY page_name, pt.dt, dates.dt
+;
 ```
 
 |DT|PAGE_NAME|PAGE_VIEWS|DATES_DT|
@@ -273,11 +276,12 @@ If we were to ignore the `page_views` column our solution would be complete. We 
 WITH RECURSIVE DATES AS ...
 SELECT 
 DISTINCT 
-DATES.DT
-, PT.PAGE_NAME 
+DATES.dt
+, PT.page_name 
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
 ORDER BY page_name, dt 
+;
 ```
 
 |DT|PAGE_NAME|
@@ -312,7 +316,8 @@ FROM page_traffic AS pt
 	CROSS JOIN DATES 
 WHERE dates.dt = '2024-09-01'
 AND page_name = 'Homepage'
-ORDER BY PAGE_NAME, pt.DT, dates.dt
+ORDER BY page_name, pt.dt, dates.dt
+;
 ```
 
 |DATES_DT|DT|PAGE_NAME|PAGE_VIEWS|
@@ -328,8 +333,8 @@ WITH RECURSIVE DATES ...
 SELECT 
 DISTINCT 
 dates.dt AS dates_dt
-, pt.PAGE_NAME 
-, CASE WHEN DATES.DT = PT.DT THEN PAGE_VIEWS END AS pv
+, pt.page_name 
+, CASE WHEN DATES.dt = PT.dt THEN page_views END AS pv
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
 WHERE dates.dt = '2024-09-01'
@@ -351,13 +356,14 @@ WITH RECURSIVE DATES ...
 SELECT 
 DISTINCT 
 dates.dt AS dates_dt
-, pt.PAGE_NAME 
-, CASE WHEN DATES.DT = PT.DT THEN PAGE_VIEWS END AS pv -- Be sure to rename this column.
-, RANK() OVER (PARTITION BY DATES_DT, PAGE_NAME ORDER BY pv) AS pv_ranking 
+, pt.page_name 
+, CASE WHEN DATES.dt = PT.dt THEN page_views END AS pv -- Be sure to rename this column.
+, RANK() OVER (PARTITION BY dates_dt, page_name ORDER BY pv) AS pv_ranking 
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
 WHERE dates.dt = '2024-09-01'
 AND page_name = 'Homepage'
+;
 ```
 
 |DATES_DT|PAGE_NAME|PV|PV_RANKING|
@@ -377,38 +383,39 @@ If you're using Snowflake or any other RDBMS where the `QUALIFY` clause is suppo
 -- RDBMS with QUALIFY:
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, dt) AS dt 
 FROM DATES 
-WHERE DT < '2024-09-08'
+WHERE dt < '2024-09-08'
 )
 SELECT 
 DISTINCT 
 dates.dt AS dates_dt
-, pt.PAGE_NAME
-, CASE WHEN DATES.DT = PT.DT THEN PAGE_VIEWS END AS PV
+, pt.page_name
+, CASE WHEN DATES.dt = PT.dt THEN page_views END AS pv
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
-QUALIFY RANK() OVER (PARTITION BY DATES_DT, PAGE_NAME ORDER BY PV) = 1 
-ORDER BY PAGE_NAME, DATES_DT
+QUALIFY RANK() OVER (PARTITION BY dates_dt, page_name ORDER BY pv) = 1 
+ORDER BY page_name, dates_dt
+;
 
 -- If QUALIFY is not supported:
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, DT) AS pt 
 FROM DATES 
-WHERE DT < '2024-09-08'
+WHERE dt < '2024-09-08'
 ), 
 final_dataset AS 
 (
 SELECT  
 dates.dt AS dates_dt
-, pt.PAGE_NAME
-, CASE WHEN DATES.DT = PT.DT THEN PAGE_VIEWS END AS PV
-, RANK() OVER (PARTITION BY DATES_DT, PAGE_NAME ORDER BY PV) AS pv_rank
+, pt.page_name
+, CASE WHEN DATES.DT = PT.DT THEN page_views END AS pv
+, RANK() OVER (PARTITION BY dates_dt, page_name ORDER BY pv) AS pv_rank
 FROM page_traffic AS pt 
 	CROSS JOIN DATES 
 )
@@ -419,7 +426,8 @@ dates_dt
 , pv
 FROM final_dataset
 WHERE pv_rank = 1 
-ORDER BY PAGE_NAME, DATES_DT
+ORDER BY page_name, dates_dt
+;
 ```
 
 |DATES_DT|PAGE_NAME|PV|
@@ -451,18 +459,19 @@ By using an in-line view of distinct page names we can join every date in our ra
 ```SQL
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, dt) AS dt 
 FROM DATES 
-WHERE DT < '2024-09-08'
+WHERE dt < '2024-09-08'
 )
 SELECT 
 DISTINCT 
 dates.dt AS dt
-, pn.PAGE_NAME
+, pn.page_name
 FROM DATES
 	CROSS JOIN (SELECT DISTINCT page_name FROM page_traffic) AS pn
+;
 ```
 
 |dates_dt|page_name|
@@ -490,11 +499,11 @@ will be returned, otherwise `NULL` will be returned:
 ```SQL
 WITH RECURSIVE DATES AS 
 (
-SELECT DATE('2024-09-01') AS DT 
+SELECT DATE('2024-09-01') AS dt 
 UNION ALL
-SELECT DATEADD(DAY, 1, DT) AS DT 
+SELECT DATEADD(DAY, 1, dt) AS dt 
 FROM DATES 
-WHERE DT < '2024-09-08'
+WHERE dt < '2024-09-08'
 )
 SELECT
 dates.dt AS dates_dt
@@ -506,6 +515,7 @@ FROM dates as dates
 	ON pt.dt = dates.dt
 	AND pt.page_name = pn.page_name
 ORDER BY page_name, dates_dt
+;
 ```
 
 And that's it! 
